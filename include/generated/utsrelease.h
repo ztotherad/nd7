@@ -1,1 +1,1 @@
-#define UTS_RELEASE "3.0.73energySTOCK--i605-"
+#define UTS_RELEASE "3.0.73+energySTOCK--i605-"

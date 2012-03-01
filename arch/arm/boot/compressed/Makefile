@@ -95,18 +95,29 @@ endif
 
 SEDFLAGS	= s/TEXT_START/$(ZTEXTADDR)/;s/BSS_START/$(ZBSSADDR)/
 
+<<<<<<< HEAD
 suffix_$(CONFIG_KERNEL_GZIP) = gzip
 suffix_$(CONFIG_KERNEL_LZO)  = lzo
 suffix_$(CONFIG_KERNEL_LZMA) = lzma
 suffix_$(CONFIG_KERNEL_XZ)   = xzkern
 suffix_$(CONFIG_KERNEL_LZ4)  = lz4
+=======
+suffix_$(CONFIG_KERNEL_GZIP) := gzip
+suffix_$(CONFIG_KERNEL_LZO)  := lzo
+suffix_$(CONFIG_KERNEL_LZMA) := lzma
+suffix_$(CONFIG_KERNEL_XZ)   := xzkern
+>>>>>>> 2cc54f1... kernel compression XZ added
 
 targets       := vmlinux vmlinux.lds \
 		 piggy.$(suffix_y) piggy.$(suffix_y).o \
 		 font.o font.c head.o misc.o $(OBJS)
 
 # Make sure files are removed during clean
+<<<<<<< HEAD
 extra-y       += piggy.gzip piggy.lzo piggy.lzma piggy.xzkern piggy.lz4 lib1funcs.S ashldi3.S
+=======
+extra-y       += piggy.gzip piggy.lzo piggy.lzma piggy.xzkern lib1funcs.S ashldi3.S
+>>>>>>> 2cc54f1... kernel compression XZ added
 
 ifeq ($(CONFIG_FUNCTION_TRACER),y)
 ORIG_CFLAGS := $(KBUILD_CFLAGS)
@@ -158,7 +169,11 @@ bad_syms=$$($(CROSS_COMPILE)nm $@ | sed -n 's/^.\{8\} [bc] \(.*\)/\1/p') && \
     echo "$$bad_syms" >&2; rm -f $@; false )
 
 $(obj)/vmlinux: $(obj)/vmlinux.lds $(obj)/$(HEAD) $(obj)/piggy.$(suffix_y).o \
+<<<<<<< HEAD
 		$(addprefix $(obj)/, $(OBJS)) $(lib1funcs) $(ashldi3) FORCE
+=======
+    $(addprefix $(obj)/, $(OBJS)) $(lib1funcs) $(ashldi3) FORCE
+>>>>>>> 2cc54f1... kernel compression XZ added
 	$(call if_changed,ld)
 	@$(check_for_bad_syms)
 
