@@ -4,7 +4,7 @@
 KERNEL_PATH=$PWD
 
 echo "house cleaning properly before compiling!"
-make mrproper distclean
+make clean
 
 # Set toolchain path
 if [ "$(whoami)" == "ztotherad" ]; then

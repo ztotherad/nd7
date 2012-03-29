@@ -1,16 +1,18 @@
-ui_print("=============================================");
 ui_print(" ");
 ui_print("energySTOCK kitkat kernel);
 ui_print("flashing the boot.img");
 ui_print(" ");
+show_progress(0.100000, 0);
+show_progress(0.100000, 40);
 
-assert(package_extract_file("boot.img", "tmp/boot.img"));
+ui_print("* injecting the energy burst!*" );
+
+assert(package_extract_file("boot.img", "tmp/boot.img"),
 show_progress(0.10000, 70);
-assert(write_raw_image("/tmp/bootimg", "/dev/block/mmcblk0p8"));
+assert(write_raw_image("/tmp/bootimg", "/dev/block/mmcblk0p8"),
 show_progress(0.100000, 90);
-delete("/tmp/boot.img");
+delete("/tmp/boot.img"));
 
 show_progress(0.100000, 100);
 ui_print("enjoy the energy burst!");
 ui_print("fin");
-ui_print("=============================================");
