@@ -851,14 +851,22 @@ late_initcall(exynos_cpufreq_init);
 
 /* sysfs interface for UV control */
 ssize_t show_UV_mV_table(struct cpufreq_policy *policy, char *buf) {
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> d095acb... cpufreq: CPU undervolting interface
   int i, len = 0;
   if (buf)
   {
     for (i = exynos_info->max_support_idx; i<=exynos_info->min_support_idx; i++)
     {
       if(exynos_info->freq_table[i].frequency==CPUFREQ_ENTRY_INVALID) continue;
+<<<<<<< HEAD
       len += sprintf(buf + len, "%dmhz: %d mV\n", exynos_info->freq_table[i].frequency/1000, 
+=======
+      len += sprintf(buf + len, "%dmhz: %d mV\n", exynos_info->freq_table[i].frequency/1000,
+>>>>>>> d095acb... cpufreq: CPU undervolting interface
 					((exynos_info->volt_table[i] % 1000) + exynos_info->volt_table[i])/1000);
     }
   }
@@ -869,6 +877,7 @@ ssize_t store_UV_mV_table(struct cpufreq_policy *policy,
                                       const char *buf, size_t count) {
 
 	unsigned int ret = -EINVAL;
+<<<<<<< HEAD
     int i = 0;
     int j = 0;
 	int u[16];
@@ -886,12 +895,35 @@ ssize_t store_UV_mV_table(struct cpufreq_policy *policy,
 	}
 		
 	for( i = 0; i < 16; i++ )
+=======
+   int i = 0;
+   int j = 0;
+	int u[15];
+   ret = sscanf(buf, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", &u[0], &u[1], &u[2], &u[3], &u[4], &u[5], &u[6],
+															&u[7], &u[8], &u[9], &u[10], &u[11], &u[12], &u[13], &u[14]);
+	if(ret != 15) {
+		ret = sscanf(buf, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d", &u[0], &u[1], &u[2], &u[3], &u[4], &u[5], &u[6],
+															&u[7], &u[8], &u[9], &u[10], &u[11], &u[12], &u[13]);
+		if(ret != 14) {
+			ret = sscanf(buf, "%d %d %d %d %d %d %d %d %d %d %d %d %d", &u[0], &u[1], &u[2], &u[3], &u[4], &u[5], &u[6],
+															&u[7], &u[8], &u[9], &u[10], &u[11], &u[12]);
+			if( ret != 12)
+				return -EINVAL;
+		}
+	}
+
+	for( i = 0; i < 15; i++ )
+>>>>>>> d095acb... cpufreq: CPU undervolting interface
 	{
 		u[i] *= 1000;
 		// round down voltages - thx to AndreiLux
 		if(u[i] % 12500)
 			u[i] = (u[i] / 12500) * 12500;
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> d095acb... cpufreq: CPU undervolting interface
 		if (u[i] > CPU_UV_MV_MAX) {
 			u[i] = CPU_UV_MV_MAX;
 		}
@@ -899,8 +931,13 @@ ssize_t store_UV_mV_table(struct cpufreq_policy *policy,
 			u[i] = CPU_UV_MV_MIN;
 		}
 	}
+<<<<<<< HEAD
 	
 	for( i = 0; i < 16; i++ ) {
+=======
+
+	for( i = 0; i < 15; i++ ) {
+>>>>>>> d095acb... cpufreq: CPU undervolting interface
 		while(exynos_info->freq_table[i+j].frequency==CPUFREQ_ENTRY_INVALID)
 			j++;
 		exynos_info->volt_table[i+j] = u[i];
