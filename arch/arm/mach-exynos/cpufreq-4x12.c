@@ -127,7 +127,6 @@ static unsigned int clkdiv_cpu0_4412[CPUFREQ_LEVEL_END][8] = {
 	 * { DIVCORE, DIVCOREM0, DIVCOREM1, DIVPERIPH,
 	 *		DIVATB, DIVPCLK_DBG, DIVAPLL, DIVCORE2 }
 	 */
-<<<<<<< HEAD
 	/* ARM L0: 1600Mhz */
 	{ 0, 3, 7, 0, 6, 1, 7, 0 },
 
@@ -171,7 +170,6 @@ static unsigned int clkdiv_cpu0_4412[CPUFREQ_LEVEL_END][8] = {
 	{ 0, 2, 4, 0, 2, 1, 1, 0 },
 
 	/* ARM L14: 200MHz */
-=======
 	/* ARM L0: 1920Mhz */
 	{ 0, 4, 7, 0, 7, 1, 7, 0 },
 
@@ -227,7 +225,6 @@ static unsigned int clkdiv_cpu0_4412[CPUFREQ_LEVEL_END][8] = {
 	{ 0, 1, 3, 0, 1, 1, 1, 0 },
 
 	/* ARM L18: 100MHz */
->>>>>>> ea68d89... cpufreq: Reworked CPU Overclocking (thx to civato)
 	{ 0, 1, 3, 0, 1, 1, 1, 0 },
 };
 
@@ -285,7 +282,6 @@ static unsigned int clkdiv_cpu1_4412[CPUFREQ_LEVEL_END][3] = {
 	/* Clock divider value for following
 	 * { DIVCOPY, DIVHPM, DIVCORES }
 	 */
-<<<<<<< HEAD
 	/* ARM L0: 1600MHz */
 	{ 6, 0, 7 },
 
@@ -329,7 +325,6 @@ static unsigned int clkdiv_cpu1_4412[CPUFREQ_LEVEL_END][3] = {
 	{ 3, 0, 1 },
 
 	/* ARM L14: 200MHz */
-=======
 	/* ARM L0: 1920MHz */
 	{ 7, 0, 7 },
 
@@ -385,12 +380,10 @@ static unsigned int clkdiv_cpu1_4412[CPUFREQ_LEVEL_END][3] = {
 	{ 3, 0, 0 },
 
 	/* ARM L18: 100MHz */
->>>>>>> ea68d89... cpufreq: Reworked CPU Overclocking (thx to civato)
 	{ 3, 0, 0 },
 };
 
 static unsigned int exynos4x12_apll_pms_table[CPUFREQ_LEVEL_END] = {
-<<<<<<< HEAD
 	/* APLL FOUT L0: 1600MHz */
 	((200<<16)|(3<<8)|(0x0)),
 
@@ -436,7 +429,6 @@ static unsigned int exynos4x12_apll_pms_table[CPUFREQ_LEVEL_END] = {
 	/* APLL FOUT L14: 200MHz */
 	((100<<16)|(3<<8)|(0x2)),
 
-=======
 	/* APLL FOUT L0: 1920MHz */
 	((240<<16)|(3<<8)|(0x0)),
 
@@ -493,7 +485,6 @@ static unsigned int exynos4x12_apll_pms_table[CPUFREQ_LEVEL_END] = {
 
 	/* APLL FOUT L18: 100MHz */
 	((100<<16)|(3<<8)|(0x3)),
->>>>>>> ea68d89... cpufreq: Reworked CPU Overclocking (thx to civato)
 };
 
 /*
@@ -570,9 +561,7 @@ static const unsigned int asv_voltage_step_12_5[CPUFREQ_LEVEL_END][12] = {
 /* 20120927 DVFS table for pega prime */
 static const unsigned int asv_voltage_step_12_5_rev2[CPUFREQ_LEVEL_END][13] = {
 	/*   ASV0,    ASV1,    ASV2,    ASV3,	 ASV4,	  ASV5,	   ASV6,    ASV7,    ASV8,    ASV9,   ASV10,   ASV11    ASV12 */
-<<<<<<< HEAD
 	{ 1312500, 1312500, 1312500, 1312500, 1300000, 1287500, 1275000, 1262500, 1250000, 1237500, 1212500, 1200000, 1187500 },	/* L0 */
-<<<<<<< HEAD
 	{ 1312500, 1262500, 1262500, 1262500, 1250000, 1237500,	1225000, 1212500, 1200000, 1187500, 1162500, 1150000, 1137500 },	/* L1 */
 	{ 1275000, 1225000, 1225000, 1225000, 1212500, 1200000, 1187500, 1175000, 1162500, 1150000, 1125000, 1112500, 1100000 },	/* L2 */
 	{ 1225000, 1175000, 1175000, 1175000, 1162500, 1150000, 1137500, 1125000, 1112500, 1100000, 1075000, 1062500, 1050000 },	/* L3 */
@@ -587,7 +576,6 @@ static const unsigned int asv_voltage_step_12_5_rev2[CPUFREQ_LEVEL_END][13] = {
 	{  987500,  937500,  937500,  937500,  925000,  912500,  900000,  887500,  887500,  887500,  875000,  875000,  875000 },	/* L12 */
 	{  975000,  925000,  925000,  925000,  912500,  900000,  887500,  887500,  887500,  887500,  875000,  875000,  875000 },	/* L13 */
 	{  962500,  912500,  912500,  912500,  900000,  887500,  887500,  887500,  887500,  887500,  875000,  875000,  875000 },	/* L14 */
-=======
 	{ 1275000, 1262500, 1262500, 1262500, 1250000, 1237500,	1225000, 1212500, 1200000, 1187500, 1162500, 1150000, 1137500 },	/* L1 */
 	{ 1237500, 1225000, 1225000, 1225000, 1212500, 1200000, 1187500, 1175000, 1162500, 1150000, 1125000, 1112500, 1100000 },	/* L2 */
 	{ 1187500, 1175000, 1175000, 1175000, 1162500, 1150000, 1137500, 1125000, 1112500, 1100000, 1075000, 1062500, 1050000 },	/* L3 */
@@ -602,7 +590,6 @@ static const unsigned int asv_voltage_step_12_5_rev2[CPUFREQ_LEVEL_END][13] = {
 	{  950000,  937500,  937500,  937500,  925000,  912500,  900000,  887500,  887500,  887500,  875000,  875000,  875000 },	/* L12 */
 	{  937500,  925000,  925000,  925000,  912500,  900000,  887500,  887500,  887500,  887500,  875000,  875000,  875000 },	/* L13 */
 	{  925000,  912500,  912500,  912500,  900000,  887500,  887500,  887500,  887500,  887500,  875000,  875000,  875000 },	/* L14 */
-=======
 	{ 1450000, 1425000, 1425000, 1425000, 1425000, 1425000, 1425000, 1400000, 1400000, 1400000, 1400000, 1375000, 1375000 }, /* L0 1920 */
 	{ 1425000, 1400000, 1400000, 1400000, 1400000, 1400000, 1400000, 1375000, 1375000, 1375000, 1375000, 1350000, 1350000 }, /* L1 1800 */
 	{ 1400000, 1375000, 1375000, 1375000, 1375000, 1375000, 1375000, 1350000, 1350000, 1350000, 1350000, 1325000, 1325000 }, /* L2 1704 */
@@ -622,8 +609,6 @@ static const unsigned int asv_voltage_step_12_5_rev2[CPUFREQ_LEVEL_END][13] = {
 	{  975000,  925000,  925000,  925000,  912500,  900000,  887500,  887500,  887500,  887500,  875000,  875000,  875000 }, /* L16 300 */
 	{  962500,  900000,  900000,  900000,  900000,  887500,  887500,  887500,  887500,  887500,  875000,  875000,  875000 }, /* L17 200 */
 	{  925000,  875000,  875000,  875000,  875000,  850000,  850000,  850000,  850000,  850000,  850000,  850000,  850000 }, /* L18 100 */
->>>>>>> ea68d89... cpufreq: Reworked CPU Overclocking (thx to civato)
->>>>>>> fcf46dd... cpufreq: Reworked CPU Overclocking (thx to civato)
 };
 
 static const unsigned int asv_voltage_step_1ghz[CPUFREQ_LEVEL_END][12] = {
@@ -819,7 +804,6 @@ static void exynos4x12_set_frequency(unsigned int old_index,
 }
 
 /* Get maximum cpufreq index of chip */
-<<<<<<< HEAD
 static unsigned int get_max_cpufreq_idx(void)
 {
 	int index = -EINVAL;
@@ -847,8 +831,6 @@ static unsigned int get_max_cpufreq_idx(void)
 
 	return index;
 }
-=======
->>>>>>> ea68d89... cpufreq: Reworked CPU Overclocking (thx to civato)
 
 static void __init set_volt_table(void)
 {
@@ -889,16 +871,12 @@ static void __init set_volt_table(void)
 			pr_info("%s : special flag[%d]\n", __func__, tmp);
 			switch (tmp) {
 			case 1:
-<<<<<<< HEAD
 				if (soc_is_exynos4212())
 					i = L9; 	/* 700MHz fixed volt */
 				else
 					i = L11;	/* 500MHz fixed volt */
-=======
-<<<<<<< HEAD
 				/* 500MHz fixed volt */
 				i = L11;
->>>>>>> fcf46dd... cpufreq: Reworked CPU Overclocking (thx to civato)
 				break;
 			case 2:
 				if (soc_is_exynos4212())
@@ -907,15 +885,12 @@ static void __init set_volt_table(void)
 					i = L9; 	/* 700MHz fixed volt */
 				break;
 			case 3:
-<<<<<<< HEAD
 				if (soc_is_exynos4212())
 					i = L7; 	/* 900MHz fixed volt */
 				else
 					i = L8; 	/* 800MHz fixed volt */
-=======
 				/* 800MHz fixed volt */
 				i = L8;
-=======
 				if (soc_is_exynos4212())
 					i = L12; 	/* 700MHz fixed volt */
 				else
@@ -932,8 +907,6 @@ static void __init set_volt_table(void)
 					i = L10; 	/* 900MHz fixed volt */
 				else
 					i = L11; 	/* 800MHz fixed volt */
->>>>>>> ea68d89... cpufreq: Reworked CPU Overclocking (thx to civato)
->>>>>>> fcf46dd... cpufreq: Reworked CPU Overclocking (thx to civato)
 				break;
 			default:
 				break;
