@@ -40,8 +40,6 @@
 #include "wm8994.h"
 #include "wm_hubs.h"
 
-<<<<<<< HEAD
-=======
 #ifdef CONFIG_SND_BOEFFLA
 #include "boeffla_sound.h"
 #endif
@@ -50,7 +48,6 @@
 #include "sound_control.h"
 #endif
 
->>>>>>> d8cfd1c... Implemented Wolfson Sound (Optional, disabled by default)
 #define WM1811_JACKDET_MODE_NONE  0x0000
 #define WM1811_JACKDET_MODE_JACK  0x0100
 #define WM1811_JACKDET_MODE_MIC   0x0080
@@ -211,20 +208,12 @@ static int wm8994_write(struct snd_soc_codec *codec, unsigned int reg,
 
 	BUG_ON(reg > WM8994_MAX_REGISTER);
 
-<<<<<<< HEAD
-#if defined(CONFIG_TARGET_LOCALE_KOR)
-	if ((reg == WM8994_GPIO_1) && (value != WM8994_GP_FN_IRQ)) {
-		dev_err(codec->dev, "Invalid value for 700h\n");
-		return 0;
-	}
-=======
 #ifdef CONFIG_SND_BOEFFLA
 	value = Boeffla_sound_hook_wm8994_write(reg, value);
 #endif
 
 #ifdef CONFIG_SND_WOLFSON_SOUND_CONTROL
 	value = sound_control_hook_wm8994_write(reg, value);
->>>>>>> d8cfd1c... Implemented Wolfson Sound (Optional, disabled by default)
 #endif
 
 	if (!wm8994_volatile(codec, reg)) {
@@ -2360,21 +2349,6 @@ static int opclk_divs[] = { 10, 20, 30, 40, 55, 60, 80, 120, 160 };
 static int wm8994_set_fll(struct snd_soc_dai *dai, int id, int src,
 			  unsigned int freq_in, unsigned int freq_out)
 {
-#if defined(CONFIG_TARGET_LOCALE_KOR)
-	/*  workaround for jack detection
-	 * sometimes WM8994_GPIO_1 type changed wrong function type
-	 * so if type mismatched, update to IRQ type
-	 */
-	struct snd_soc_codec *codec = dai->codec;
-	unsigned int reg = 0;
-
-	reg = snd_soc_read(codec, WM8994_GPIO_1);
-	if ((reg & WM8994_GPN_FN_MASK) != WM8994_GP_FN_IRQ) {
-		dev_err(codec->dev, "%s: GPIO1 Type [%#x]\n", __func__, reg);
-		snd_soc_write(codec, WM8994_GPIO_1, WM8994_GP_FN_IRQ);
-	}
-#endif
-
 	return _wm8994_set_fll(dai->codec, id, src, freq_in, freq_out);
 }
 
@@ -2963,6 +2937,7 @@ static int wm8994_aif3_hw_params(struct snd_pcm_substream *substream,
 		default:
 			return 0;
 		}
+		break;
 	default:
 		return 0;
 	}
@@ -3645,20 +3620,10 @@ static irqreturn_t wm1811_jackdet_irq(int irq, void *data)
 		mutex_lock(&codec->mutex);
 
 		if (present)
-#if defined(CONFIG_SND_USE_EXTERNAL_LDO_FOR_EARMICBIAS)
-			snd_soc_dapm_force_enable_pin(&codec->dapm,
-							"Headset ext Mic");
-#else
 			snd_soc_dapm_force_enable_pin(&codec->dapm,
 						      "MICBIAS2");
-#endif							  
 		else
-#if defined(CONFIG_SND_USE_EXTERNAL_LDO_FOR_EARMICBIAS)
-			snd_soc_dapm_disable_pin(&codec->dapm, 
-							"Headset ext Mic");
-#else
 			snd_soc_dapm_disable_pin(&codec->dapm, "MICBIAS2");
-#endif
 
 		snd_soc_dapm_sync(&codec->dapm);
 		mutex_unlock(&codec->mutex);
@@ -4296,8 +4261,6 @@ static int wm8994_codec_probe(struct snd_soc_codec *codec)
 					ARRAY_SIZE(wm8958_intercon));
 		break;
 	}
-<<<<<<< HEAD
-=======
 	
 #ifdef CONFIG_SND_BOEFFLA
 	Boeffla_sound_hook_wm8994_pcm_probe(codec);
@@ -4306,7 +4269,6 @@ static int wm8994_codec_probe(struct snd_soc_codec *codec)
 #ifdef CONFIG_SND_WOLFSON_SOUND_CONTROL
 	sound_control_hook_wm8994_pcm_probe(codec);
 #endif
->>>>>>> d8cfd1c... Implemented Wolfson Sound (Optional, disabled by default)
 
 	return 0;
 

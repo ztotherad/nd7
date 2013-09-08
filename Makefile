@@ -1,7 +1,12 @@
 VERSION = 3
 PATCHLEVEL = 0
+<<<<<<< HEAD
 SUBLEVEL = 73
 EXTRAVERSION = -energySTOCK--i605
+=======
+SUBLEVEL = 95
+EXTRAVERSION =
+>>>>>>> 11fcd1c... Linux 3.0.95
 NAME = Sneaky Weasel
 
 # *DOCUMENTATION*
