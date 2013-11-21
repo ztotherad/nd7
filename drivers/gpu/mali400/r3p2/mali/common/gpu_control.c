@@ -26,6 +26,7 @@
 
 #define GPU_MAX_CLOCK 800
 #define GPU_MIN_CLOCK 10
+#define MALI_STEPS 5
 
 typedef struct mali_dvfs_tableTag{
     unsigned int clock;
@@ -35,6 +36,7 @@ typedef struct mali_dvfs_tableTag{
     unsigned int upthreshold;
 }mali_dvfs_table;
 
+<<<<<<< HEAD:drivers/gpu/mali400/r3p2/mali/common/gpu_control.c
 <<<<<<< HEAD:drivers/gpu/mali400/r3p2/mali/common/gpu_clock_control.c
 extern mali_dvfs_table mali_dvfs[5];
 =======
@@ -68,59 +70,62 @@ static ssize_t gpu_voltage_store(struct device *dev, struct device_attribute *at
         return count;
 }
 >>>>>>> 5d23c72... gpu control: voltage and clock control in one file:drivers/gpu/mali400/r3p2/mali/common/gpu_control.c
+=======
+extern mali_dvfs_table mali_dvfs[MALI_STEPS];
+>>>>>>> 13b2e54... properly added 5th step to mali control:drivers/gpu/mali400/r3p2/mali/common/gpu_clock_control.c
 
 static ssize_t gpu_clock_show(struct device *dev, struct device_attribute *attr, char *buf) {
-        return sprintf(buf, "Step0: %d\nStep1: %d\nStep2: %d\n Step3: %d\n" 
+        return sprintf(buf, "Step0: %d\nStep1: %d\nStep2: %d\nStep3: %d\nStep4: %d\n"
                                                 "Threshold0-1/up-down: %d%% %d%%\n"
                                                 "Threshold1-2/up-down: %d%% %d%%\n"
                                                 "Threshold2-3/up-down: %d%% %d%%\n"
-						"Threshold3-4/up-down: %d%% %d%%\n",
+                                                "Threshold3-4/up-down: %d%% %d%%\n",
                 mali_dvfs[0].clock,
                 mali_dvfs[1].clock,
                 mali_dvfs[2].clock,
                 mali_dvfs[3].clock,
                 mali_dvfs[4].clock,
-                mali_dvfs[0].upthreshold*100/255,
-                mali_dvfs[1].downthreshold*100/255,
-                mali_dvfs[1].upthreshold*100/255,
-                mali_dvfs[2].downthreshold*100/255,
-                mali_dvfs[2].upthreshold*100/255,
-                mali_dvfs[3].downthreshold*100/255,
-                mali_dvfs[3].upthreshold*100/255,
-                mali_dvfs[4].downthreshold*100/255
+                mali_dvfs[0].upthreshold,
+                mali_dvfs[1].downthreshold,
+                mali_dvfs[1].upthreshold,
+                mali_dvfs[2].downthreshold,
+                mali_dvfs[2].upthreshold,
+                mali_dvfs[3].downthreshold,
+                mali_dvfs[3].upthreshold,
+                mali_dvfs[4].downthreshold
                 );
 }
 
-unsigned int g[6];
+unsigned int g[(MALI_STEPS-1)*2];
 
 static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr,
                                const char *buf, size_t count) {
         unsigned int ret = -EINVAL;
         int i = 0;
 
-        if ( (ret=sscanf(buf, "%d%% %d%% %d%% %d%% %d%% %d%%",
-                         &g[0], &g[1], &g[2], &g[3], &g[4], &g[5]))
-              == 6 ) i=1;
+        if ( (ret=sscanf(buf, "%d%% %d%% %d%% %d%% %d%% %d%% %d%% %d%%",
+                         &g[0], &g[1], &g[2], &g[3], &g[4], &g[5], &g[6], &g[7]))
+              == (MALI_STEPS-1)*2 ) i=1;
 
         if(i) {
-                if(g[1]<0 || g[0]>100 || g[3]<0 || g[2]>100 || g[5]<0 ||
-			 g[4]>100 || g[7]<0 || g[6]>100)  
+                if(g[1]<0 || g[0]>100 || g[3]<0 || g[2]>100 ||
+			 g[5]<0 || g[4]>100 || g[7]<0 || g[6]>100) 
                         return -EINVAL;
 
-                mali_dvfs[0].upthreshold = ((int)((255*g[0])/100));
-                mali_dvfs[1].downthreshold = ((int)((255*g[1])/100));
-                mali_dvfs[1].upthreshold = ((int)((255*g[2])/100));
-                mali_dvfs[2].downthreshold = ((int)((255*g[3])/100));
-                mali_dvfs[2].upthreshold = ((int)((255*g[4])/100));
-                mali_dvfs[3].downthreshold = ((int)((255*g[5])/100));
-                mali_dvfs[3].upthreshold = ((int)((255*g[6])/100));
-                mali_dvfs[4].downthreshold = ((int)((255*g[7])/100));
+                mali_dvfs[0].upthreshold = (int)(g[0]);
+                mali_dvfs[1].downthreshold = (int)(g[1]);
+                mali_dvfs[1].upthreshold = (int)(g[2]);
+                mali_dvfs[2].downthreshold = (int)(g[3]);
+                mali_dvfs[2].upthreshold = (int)(g[4]);
+                mali_dvfs[3].downthreshold = (int)(g[5]);
+                mali_dvfs[3].upthreshold = (int)(g[6]);
+                mali_dvfs[4].downthreshold = (int)(g[7]);
         } else {
-                if ( (ret=sscanf(buf, "%d %d %d %d %d", &g[0], &g[1], &g[2], &g[3], &g[4] )) != 5)
+                if ( (ret=sscanf(buf, "%d %d %d %d %d", &g[0], &g[1], &g[2], &g[3], &g[4])) != MALI_STEPS)
                         return -EINVAL;
 
                 /* safety floor and ceiling - netarchy */
-                for( i = 0; i < 5; i++ ) {
+                for( i = 0; i < MALI_STEPS; i++ ) {
                         if (g[i] < GPU_MIN_CLOCK) {
                                 g[i] = GPU_MIN_CLOCK;
                         }
@@ -128,7 +133,7 @@ static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr
                                 g[i] = GPU_MAX_CLOCK;
                         }
 
-                        if(ret==5)
+                        if(ret==MALI_STEPS)
                                 mali_dvfs[i].clock=g[i];
                 }
         }
