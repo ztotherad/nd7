@@ -947,6 +947,21 @@ int mali_dvfs_is_running(void)
 	return bMaliDvfsRun;
 }
 
+<<<<<<< HEAD
+=======
+static int verify_valid (int module_clk, int dvfs_clock) {
+    int i, found = 0;
+    for (i = 0; (gpu_freq_table[i] != GPU_FREQ_END_OF_TABLE); i++) {
+	if (gpu_freq_table[i] == module_clk) {
+	    found = 1;
+            return module_clk;
+	}
+    }
+// new freq is not valid
+    return dvfs_clock;
+}
+
+>>>>>>> 426eff2... gpu control: fix warning
 
 static void mali_dvfs_work_handler(struct work_struct *w)
 {
