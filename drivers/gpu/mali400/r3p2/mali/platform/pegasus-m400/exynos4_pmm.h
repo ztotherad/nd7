@@ -131,8 +131,12 @@ int mali_vol_get_from_table(int vol);
 extern unsigned int gpu_freq_table[GPU_FREQ_STEPS+1];
 
 // Yank555.lu : Global voltage delta to be applied to voltage resets
+<<<<<<< HEAD
 extern int gpu_voltage_delta[MALI_DVFS_STEPS];
 extern void gpu_voltage_delta_reset(int step);
+=======
+extern int gpu_voltage_delta;
+>>>>>>> 04f527e... gpu control: Global voltage delta (yank555-lu)
 
 #define MIN_VOLTAGE_GPU 600000
 #define MAX_VOLTAGE_GPU 1400000

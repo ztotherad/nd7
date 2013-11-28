@@ -21,11 +21,13 @@
 
 #include "gpu_control.h"
 
-#define MIN_VOLTAGE_GPU  800000
-#define MAX_VOLTAGE_GPU 1200000
-
 #define GPU_MAX_CLOCK 800
+<<<<<<< HEAD
 #define GPU_MIN_CLOCK 10
+=======
+#define GPU_MIN_CLOCK 54
+#if defined(CONFIG_CPU_EXYNOS4212) || defined(CONFIG_CPU_EXYNOS4412)
+>>>>>>> 04f527e... gpu control: Global voltage delta (yank555-lu)
 #define MALI_STEPS 5
 #define GPU_MIN_CLOCK 54
 
@@ -37,8 +39,13 @@ typedef struct mali_dvfs_tableTag{
     unsigned int upthreshold;
 }mali_dvfs_table;
 
+<<<<<<< HEAD
 
 extern mali_dvfs_table mali_dvfs[5];
+=======
+// Yank555.lu : Global voltage delta to be applied to voltage resets
+int gpu_voltage_delta;
+>>>>>>> 04f527e... gpu control: Global voltage delta (yank555-lu)
 
 extern mali_dvfs_table mali_dvfs[MALI_STEPS];
 unsigned int gv[MALI_STEPS];
@@ -240,6 +247,7 @@ static ssize_t available_frequencies_show(struct device *dev, struct device_attr
 
 }
 
+<<<<<<< HEAD
 void gpu_voltage_delta_reset(int step) {
     if (step == -1) {
 	int i;
@@ -261,6 +269,12 @@ static ssize_t gpu_voltage_delta_show(struct device *dev, struct device_attribut
 	    j += sprintf(&buf[j], "Step%d: %d\n", i, gpu_voltage_delta[i]);
 	}
    return j;
+=======
+// Yank555.lu : add a global voltage delta to be applied to all automatic voltage resets
+static ssize_t gpu_voltage_delta_show(struct device *dev, struct device_attribute *attr, char *buf) {
+
+  return sprintf(buf, "%d\n", gpu_voltage_delta);
+>>>>>>> 04f527e... gpu control: Global voltage delta (yank555-lu)
 
 }
 
@@ -275,6 +289,7 @@ static ssize_t gpu_voltage_delta_store(struct device *dev, struct device_attribu
     return -EINVAL;
   }
 
+<<<<<<< HEAD
   if (data == 1) { // DerTeufel: reset all voltage deltas
 	gpu_voltage_delta_reset(-1);
 
@@ -283,6 +298,10 @@ static ssize_t gpu_voltage_delta_store(struct device *dev, struct device_attribu
 	{
     	    gpu_voltage_delta[i] = 0;
 	}
+=======
+  if (data >= -250000 && data <= 250000) {
+    gpu_voltage_delta = data;
+>>>>>>> 04f527e... gpu control: Global voltage delta (yank555-lu)
     // Yank555.lu : update mali dvfs table
     mali_dvfs_table_update();
     return count;
@@ -300,6 +319,11 @@ static DEVICE_ATTR(gpu_clock_control, S_IRUGO | S_IWUGO, gpu_clock_show, gpu_clo
 static struct attribute *gpu_control_attributes[] = {
         &dev_attr_gpu_voltage_control.attr,
         &dev_attr_gpu_clock_control.attr,
+<<<<<<< HEAD
+=======
+	&dev_attr_available_frequencies.attr,
+	&dev_attr_gpu_voltage_delta.attr,
+>>>>>>> 04f527e... gpu control: Global voltage delta (yank555-lu)
         NULL
 };
 
