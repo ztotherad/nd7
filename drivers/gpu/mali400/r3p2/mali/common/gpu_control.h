@@ -14,4 +14,7 @@
 void gpu_control_start(void);
 
 mali_bool mali_dvfs_table_update(void);
+<<<<<<< HEAD
 extern int gpu_voltage_default[MALI_DVFS_STEPS];
+=======
+>>>>>>> 750c8f6... gpu control: automatically apply correct voltages according to choosen freq (thanks to yank555-lu for his implementation)
