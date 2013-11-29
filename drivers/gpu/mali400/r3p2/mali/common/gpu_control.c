@@ -96,6 +96,7 @@ static ssize_t gpu_voltage_store(struct device *dev, struct device_attribute *at
                                                                         size_t count) {
         unsigned int ret = -EINVAL;
         int i = 0;
+<<<<<<< HEAD
 
         ret = sscanf(buf, "%d %d %d %d %d", &gv[0], &gv[1], &gv[2], &gv[3], &gv[4]);
         if(ret!=MALI_STEPS) return -EINVAL;
@@ -104,6 +105,13 @@ static ssize_t gpu_voltage_store(struct device *dev, struct device_attribute *at
         ret = sscanf(buf, "%d %d %d %d %d", &gv[0], &gv[1], &gv[2], &gv[3], &gv[4]);
 
         if(ret != MALI_DVFS_STEPS)
+=======
+        unsigned int gv[MALI_STEPS];
+
+        ret = sscanf(buf, "%d %d %d %d %d", &gv[0], &gv[1], &gv[2], &gv[3], &gv[4]);
+
+        if(ret != MALI_STEPS)
+>>>>>>> 5925b98... gpu control: finally fix it
                 return -EINVAL;
 
         /* safety floor and ceiling - netarchy */
@@ -114,8 +122,7 @@ static ssize_t gpu_voltage_store(struct device *dev, struct device_attribute *at
                 else if (gv[i] > MAX_VOLTAGE_GPU) {
                     gv[i] = MAX_VOLTAGE_GPU;
                 }
-                if(ret==MALI_STEPS)
-                    mali_dvfs[i].vol=gv[i];
+                mali_dvfs[i].vol = gv[i];
         }
         return count;
 }
@@ -175,6 +182,7 @@ static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr
                                const char *buf, size_t count) {
         unsigned int ret = -EINVAL;
         int i = 0;
+<<<<<<< HEAD
 
         if ( (ret=sscanf(buf, "%d%% %d%% %d%% %d%% %d%% %d%% %d%% %d%%",
                          &g[0], &g[1], &g[2], &g[3], &g[4], &g[5], &g[6], &g[7]))
@@ -187,6 +195,21 @@ static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr
 
                 mali_dvfs[0].upthreshold = (int)(g[0]);
                 mali_dvfs[1].downthreshold = (int)(g[1]);
+=======
+        int j = 0;
+        unsigned int g[8];
+
+        if ((ret=sscanf(buf, "%d%% %d%% %d%% %d%% %d%% %d%% %d%% %d%%",
+                         &g[0], &g[1], &g[2], &g[3], &g[4], &g[5], &g[6], &g[7])) == 8 ) i = 1;
+
+        if(i) {
+                if(g[1]<0 || g[0]>100 || g[3]<0 || g[2]>100 || g[5]<0 || g[4]>100 || g[7]<0 || g[6]>100)
+                        return -EINVAL;
+		
+                mali_dvfs[0].upthreshold = (int)(g[0]);
+                mali_dvfs[1].downthreshold = (int)(g[1]);
+
+>>>>>>> 5925b98... gpu control: finally fix it
                 mali_dvfs[1].upthreshold = (int)(g[2]);
                 mali_dvfs[2].downthreshold = (int)(g[3]);
                 mali_dvfs[2].upthreshold = (int)(g[4]);
@@ -196,7 +219,11 @@ static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr
         } else {
                 if ( (ret=sscanf(buf, "%d %d %d %d %d", &g[0], &g[1], &g[2], &g[3], &g[4])) != MALI_STEPS)
 
+<<<<<<< HEAD
                 if ((ret=sscanf(buf, "%d %d %d %d %d", &g[0], &g[1], &g[2], &g[3], &g[4])) != MALI_DVFS_STEPS)
+=======
+                if ((ret=sscanf(buf, "%d %d %d %d %d", &g[0], &g[1], &g[2], &g[3], &g[4])) != MALI_STEPS)
+>>>>>>> 5925b98... gpu control: finally fix it
                         return -EINVAL;
 
                 /* safety floor and ceiling - netarchy */
