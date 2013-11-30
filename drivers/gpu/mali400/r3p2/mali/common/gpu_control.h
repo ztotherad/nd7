@@ -12,3 +12,9 @@
  */
 
 void gpu_control_start(void);
+<<<<<<< HEAD
+=======
+
+mali_bool mali_dvfs_table_update(void);
+extern int gpu_voltage_default[MALI_DVFS_STEPS];
+>>>>>>> 777877f... gpu control: internal apply voltage changes as deltas to default voltage.
