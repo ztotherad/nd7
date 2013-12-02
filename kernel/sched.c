@@ -86,11 +86,9 @@
 #define CREATE_TRACE_POINTS
 #include <trace/events/sched.h>
 
-<<<<<<< HEAD
 #include <linux/cpufreq_slp.h>
-=======
+
 ATOMIC_NOTIFIER_HEAD(migration_notifier_head);
->>>>>>> 666f294... cpu boost: backport missing functions from 3.4 (DerTeufel)
 
 /*
  * Convert user-nice values [ -20 ... 0 ... 19 ]

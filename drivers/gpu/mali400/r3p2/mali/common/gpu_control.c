@@ -129,15 +129,94 @@ static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr
                         else if (g[i] > GPU_MAX_CLOCK) {
                                 g[i] = GPU_MAX_CLOCK;
                         }
+<<<<<<< HEAD
 
                         if(ret==MALI_STEPS)
                                 mali_dvfs[i].clock=g[i];
+=======
+			/* only apply valid freq. - DerTeufel */
+                        for (j = 0; (gpu_freq_table[j] != GPU_FREQ_END_OF_TABLE); j++) {
+			    if (gpu_freq_table[j] == g[i] && mali_dvfs[i].clock != g[i]) {
+                                mali_dvfs[i].clock=g[i];
+				gpu_voltage_delta_reset(i);
+			    }
+			}
+>>>>>>> 0fe4f9a... gpu control: if freq chnages, reset corresponding voltage delta
                 }
         }
 
         return count;
 }
 
+<<<<<<< HEAD
+=======
+// Yank555.lu : Add available frequencies sysfs entry (similar to what we have for CPU)
+static ssize_t available_frequencies_show(struct device *dev, struct device_attribute *attr, char *buf) {
+
+        int i, len = 0;
+
+        if(buf) {
+
+                for (i = 0; gpu_freq_table[i] != GPU_FREQ_END_OF_TABLE; i++)
+                        len += sprintf(buf + len, "%d ", gpu_freq_table[i]);
+
+                len += sprintf(buf + len, "\n"); // Don't forget to go to newline
+                
+        }
+
+        return len;
+
+}
+
+void gpu_voltage_delta_reset(int step) {
+    if (step == -1) {
+	int i;
+   	for (i = 0; i < MALI_DVFS_STEPS; i++)
+	{
+    	    gpu_voltage_delta[i] = 0;
+	}
+    } else {
+    	    gpu_voltage_delta[step] = 0;
+    }
+}
+
+// Yank555.lu : add a global voltage delta to be applied to all automatic voltage resets
+static ssize_t gpu_voltage_delta_show(struct device *dev, struct device_attribute *attr, char *buf) {
+
+	int i, j = 0;
+   	for (i = 0; i < MALI_DVFS_STEPS; i++)
+	{
+	    j += sprintf(&buf[j], "Step%d: %d\n", i, gpu_voltage_delta[i]);
+	}
+   return j;
+
+}
+
+static ssize_t gpu_voltage_delta_store(struct device *dev, struct device_attribute *attr, const char *buf,
+                  size_t count) {
+  int data;
+  unsigned int ret;
+
+  ret = sscanf(buf, "%d\n", &data);
+
+  if (!ret) {
+    return -EINVAL;
+  }
+
+  if (data == 1) { // DerTeufel: reset all voltage deltas
+	gpu_voltage_delta_reset(-1);
+
+    // Yank555.lu : update mali dvfs table
+    mali_dvfs_table_update();
+    return count;
+  }
+
+  return -EINVAL;
+
+}
+
+static DEVICE_ATTR(gpu_voltage_delta, S_IRUGO | S_IWUGO, gpu_voltage_delta_show, gpu_voltage_delta_store);
+>>>>>>> 0fe4f9a... gpu control: if freq chnages, reset corresponding voltage delta
 
 static DEVICE_ATTR(gpu_voltage_control, S_IRUGO | S_IWUGO, gpu_voltage_show, gpu_voltage_store);
 static DEVICE_ATTR(gpu_clock_control, S_IRUGO | S_IWUGO, gpu_clock_show, gpu_clock_store);

@@ -821,6 +821,99 @@ int mali_dvfs_is_running(void)
 static void mali_dvfs_work_handler(struct work_struct *w)
 {
 	bMaliDvfsRun=1;
+<<<<<<< HEAD
+=======
+	needs_update=0;
+
+        if (step0_clk != mali_dvfs[0].clock) {
+	    step0_clk = verify_valid(step0_clk, mali_dvfs[0].clock);
+	    if (step0_clk != mali_dvfs[0].clock) {
+                MALI_PRINT(("::: step0_clk change to %d Mhz\n", step0_clk));
+                mali_dvfs[0].clock = step0_clk;
+		gpu_voltage_delta_reset(0);
+		needs_update=1;
+	    }
+        }
+        if (step1_clk != mali_dvfs[1].clock) {
+	    step1_clk = verify_valid(step1_clk, mali_dvfs[1].clock);
+	    if (step1_clk != mali_dvfs[1].clock) {
+                MALI_PRINT(("::: step1_clk change to %d Mhz\n", step1_clk));
+                mali_dvfs[1].clock = step1_clk;
+		gpu_voltage_delta_reset(1);
+		needs_update=1;
+	    }
+        }
+        if (step0_up != mali_dvfs[0].upthreshold) {
+                MALI_PRINT(("::: step0_up change to %d %\n", step0_up));
+                mali_dvfs[0].upthreshold = step0_up;
+        }
+        if (step1_down != mali_dvfs[1].downthreshold) {
+                MALI_PRINT((":::step1_down change to %d %\n", step1_down));
+                mali_dvfs[1].downthreshold = step1_down;
+        }
+        if (step2_clk != mali_dvfs[2].clock) {
+	    step2_clk = verify_valid(step2_clk, mali_dvfs[2].clock);
+	    if (step2_clk != mali_dvfs[2].clock) {
+                MALI_PRINT(("::: step2_clk change to %d Mhz\n", step2_clk));
+                mali_dvfs[2].clock = step2_clk;
+		gpu_voltage_delta_reset(2);
+		needs_update=1;
+	    }
+        }
+        if (step1_up != mali_dvfs[1].upthreshold) {
+                MALI_PRINT((":::step1_up change to %d %\n", step1_up));
+                mali_dvfs[1].upthreshold = step1_up;
+        }
+        if (step2_down != mali_dvfs[2].downthreshold) {
+                MALI_PRINT((":::step2_down change to %d %\n", step2_down));
+                mali_dvfs[2].downthreshold = step2_down;
+        }
+        if (step3_clk != mali_dvfs[3].clock) {
+	    step3_clk = verify_valid(step3_clk, mali_dvfs[3].clock);
+	    if (step3_clk != mali_dvfs[3].clock) {
+                MALI_PRINT(("::: step3_clk change to %d Mhz\n", step3_clk));
+                mali_dvfs[3].clock = step3_clk;
+		gpu_voltage_delta_reset(3);
+		needs_update=1;
+	    }
+        }
+        if (step2_up != mali_dvfs[2].upthreshold) {
+                MALI_PRINT((":::step2_up change to %d %\n", step2_up));
+                mali_dvfs[2].upthreshold = step2_up;
+        }
+        if (step3_down != mali_dvfs[3].downthreshold) {
+                MALI_PRINT((":::step3_down change to %d %\n", step3_down));
+                mali_dvfs[3].downthreshold = step3_down;
+        }
+        if (step4_clk != mali_dvfs[4].clock) {
+	    step4_clk = verify_valid(step4_clk, mali_dvfs[4].clock);
+	    if (step4_clk != mali_dvfs[4].clock) {
+                MALI_PRINT(("::: step4_clk change to %d Mhz\n", step4_clk));
+                mali_dvfs[4].clock = step4_clk;
+		gpu_voltage_delta_reset(4);
+		needs_update=1;
+	    }
+        }
+        if (step3_up != mali_dvfs[3].upthreshold) {
+                MALI_PRINT((":::step3_up change to %d %\n", step3_up));
+                mali_dvfs[3].upthreshold = step3_up;
+        }
+        if (step4_down != mali_dvfs[4].downthreshold) {
+                MALI_PRINT((":::step4_down change to %d %\n", step4_down));
+                mali_dvfs[4].downthreshold = step4_down;
+        }
+
+#ifdef DEBUG
+        mali_dvfs[0].vol = step0_vol;
+        mali_dvfs[1].vol = step1_vol;
+        mali_dvfs[2].vol = step2_vol;
+        mali_dvfs[3].vol = step3_vol;
+        mali_dvfs[4].vol = step4_vol;
+#endif
+	if(needs_update == 1) {
+	mali_dvfs_table_update();
+	}
+>>>>>>> 0fe4f9a... gpu control: if freq chnages, reset corresponding voltage delta
 
 	MALI_DEBUG_PRINT(3, ("=== mali_dvfs_work_handler\n"));
 
