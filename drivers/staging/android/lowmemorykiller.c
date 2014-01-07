@@ -37,7 +37,6 @@
 #include <linux/sched.h>
 #include <linux/rcupdate.h>
 #include <linux/notifier.h>
-<<<<<<< HEAD
 
 #include <linux/ratelimit.h>
 
@@ -48,8 +47,6 @@
 
 #ifdef CONFIG_ZRAM_FOR_ANDROID
 #include <linux/fs.h>
-=======
->>>>>>> 0645fed... LMK update
 #include <linux/swap.h>
 #include <linux/ratelimit.h>
 #ifdef CONFIG_ZRAM_FOR_ANDROID
@@ -97,11 +94,9 @@ static uint32_t minimum_interval_time = MIN_CSWAP_INTERVAL;
 #define LOWMEM_DEATHPENDING_DEPTH 3
 #endif
 
-<<<<<<< HEAD
-=======
+
 static uint32_t lowmem_debug_level = 1;
 
->>>>>>> 0645fed... LMK update
 #ifdef LMK_COUNT_READ
 static uint32_t lmk_count = 0;
 #endif
@@ -119,10 +114,8 @@ static uint32_t oom_count = 0;
 #define OOM_DEPTH 7
 #endif
 
-<<<<<<< HEAD
 static uint32_t lowmem_debug_level = 2;
-=======
->>>>>>> 0645fed... LMK update
+
 static int lowmem_adj[6] = {
 	0,
 	1,
@@ -408,7 +401,6 @@ static void dump_tasks_info(void)
 {
 	struct task_struct *p;
 	struct task_struct *task;
-<<<<<<< HEAD
 
 	pr_info("[ pid ]   uid  tgid total_vm      rss cpu oom_adj oom_score_adj name\n");
 	for_each_process(p) {
@@ -496,7 +488,7 @@ static int android_oom_handler(struct notifier_block *nb,
 		if (tsk->flags & PF_KTHREAD)
 			continue;
 
-=======
+
 
 	pr_info("[ pid ]   uid  tgid total_vm      rss cpu oom_adj oom_score_adj name\n");
 	for_each_process(p) {
@@ -584,7 +576,6 @@ static int android_oom_handler(struct notifier_block *nb,
 		if (tsk->flags & PF_KTHREAD)
 			continue;
 
->>>>>>> 0645fed... LMK update
 		p = find_lock_task_mm(tsk);
 		if (!p)
 			continue;
@@ -615,7 +606,6 @@ static int android_oom_handler(struct notifier_block *nb,
 			selected_tasksize[max_selected_oom_idx] < tasksize)) {
 			is_exist_oom_task = 1;
 		}
-<<<<<<< HEAD
 
 		if (is_exist_oom_task) {
 			selected[max_selected_oom_idx] = p;
@@ -635,7 +625,7 @@ static int android_oom_handler(struct notifier_block *nb,
 				}
 			}
 
-=======
+
 
 		if (is_exist_oom_task) {
 			selected[max_selected_oom_idx] = p;
@@ -655,7 +645,6 @@ static int android_oom_handler(struct notifier_block *nb,
 				}
 			}
 
->>>>>>> 0645fed... LMK update
 			lowmem_print(2, "oom: max_selected_oom_idx(%d) select %d (%s), adj %d, \
 					size %d, to kill\n",
 				max_selected_oom_idx, p->pid, p->comm, oom_score_adj, tasksize);
@@ -667,7 +656,6 @@ static int android_oom_handler(struct notifier_block *nb,
 			if (oom_score_adj == selected_oom_score_adj &&
 			    tasksize <= selected_tasksize)
 				continue;
-<<<<<<< HEAD
 		}
 		selected = p;
 		selected_tasksize = tasksize;
@@ -690,7 +678,7 @@ static int android_oom_handler(struct notifier_block *nb,
 #ifdef OOM_COUNT_READ
 			oom_count++;
 #endif
-=======
+
 		}
 		selected = p;
 		selected_tasksize = tasksize;
@@ -739,7 +727,6 @@ static int android_oom_handler(struct notifier_block *nb,
 	lowmem_print(2, "oom: get memory %lu", *freed);
 	return rem;
 }
->>>>>>> 0645fed... LMK update
 
 static struct notifier_block android_oom_notifier = {
 	.notifier_call = android_oom_handler,
@@ -768,7 +755,6 @@ void could_cswap(void)
 			prev_jiffy = jiffies;
 		}
 	}
-<<<<<<< HEAD
 #else
 	if (selected) {
 		lowmem_print(1, "oom: send sigkill to %d (%s), adj %d, size %d\n",
@@ -809,7 +795,7 @@ void could_cswap(void)
 
 	if (atomic_read(&s_reclaim.lmk_running) == 1 || atomic_read(&kswapd_thread_on) == 1) 
 		return;
-=======
+
 }
 
 inline void need_soft_reclaim(void)
@@ -848,7 +834,6 @@ static int do_compcache(void * nothing)
 		set_current_state(TASK_INTERRUPTIBLE);
 		schedule();
 	}
->>>>>>> 0645fed... LMK update
 
 	if (nr_swap_pages < minimum_freeswap_pages)
 		return;
@@ -862,14 +847,13 @@ static int do_compcache(void * nothing)
 	}
 }
 
-<<<<<<< HEAD
 inline void need_soft_reclaim(void)
 {
 	atomic_set(&s_reclaim.need_to_reclaim, 1);
 }
 
 inline void cancel_soft_reclaim(void)
-=======
+
 static ssize_t rtcc_trigger_store(struct class *class, struct class_attribute *attr,
 			const char *buf, size_t count)
 {
@@ -905,7 +889,6 @@ static struct notifier_block kcompcache_idle_nb = {
 
 #ifdef CONFIG_ANDROID_LOW_MEMORY_KILLER_AUTODETECT_OOM_ADJ_VALUES
 static int lowmem_oom_adj_to_oom_score_adj(int oom_adj)
->>>>>>> 0645fed... LMK update
 {
 	atomic_set(&s_reclaim.need_to_reclaim, 0);
 }
@@ -955,28 +938,25 @@ static ssize_t rtcc_trigger_store(struct class *class, struct class_attribute *a
 
 	need_soft_reclaim();
 
-<<<<<<< HEAD
 out:
 	return count;
-=======
+
 static int lowmem_adj_array_get(char *buffer, const struct kernel_param *kp)
 {
         return param_array_ops.get(buffer, kp);
->>>>>>> 0645fed... LMK update
 }
 static CLASS_ATTR(rtcc_trigger, 0200, NULL, rtcc_trigger_store);
 static struct class *kcompcache_class;
 
 static int kcompcache_idle_notifier(struct notifier_block *nb, unsigned long val, void *data)
 {
-<<<<<<< HEAD
 	could_cswap();
 	return 0;
 }
 
 static struct notifier_block kcompcache_idle_nb = {
 	.notifier_call = kcompcache_idle_notifier,
-=======
+
         param_array_ops.free(arg);
 }
 
@@ -984,22 +964,19 @@ static struct kernel_param_ops lowmem_adj_array_ops = {
         .set = lowmem_adj_array_set,
         .get = lowmem_adj_array_get,
         .free = lowmem_adj_array_free,
->>>>>>> 0645fed... LMK update
 };
 #endif /* CONFIG_ZRAM_FOR_ANDROID */
 
-<<<<<<< HEAD
 static struct shrinker lowmem_shrinker = {
 	.shrink = lowmem_shrink,
 	.seeks = DEFAULT_SEEKS * 16
-=======
+
 static const struct kparam_array __param_arr_adj = {
         .max = ARRAY_SIZE(lowmem_adj),
         .num = &lowmem_adj_size,
         .ops = &param_ops_int,
         .elemsize = sizeof(lowmem_adj[0]),
         .elem = lowmem_adj,
->>>>>>> 0645fed... LMK update
 };
 
 static int __init lowmem_init(void)
@@ -1112,8 +1089,7 @@ static void __exit lowmem_exit(void)
 }
 
 module_param_named(cost, lowmem_shrinker.seeks, int, S_IRUGO | S_IWUSR);
-<<<<<<< HEAD
-=======
+
 #ifdef CONFIG_ANDROID_LOW_MEMORY_KILLER_AUTODETECT_OOM_ADJ_VALUES
 __module_param_call(MODULE_PARAM_PREFIX, adj,
 		    &lowmem_adj_array_ops,
@@ -1121,7 +1097,6 @@ __module_param_call(MODULE_PARAM_PREFIX, adj,
 		    S_IRUGO | S_IWUSR, -1);
 __MODULE_PARM_TYPE(adj, "array of int");
 #else
->>>>>>> 0645fed... LMK update
 module_param_array_named(adj, lowmem_adj, int, &lowmem_adj_size,
 			 S_IRUGO | S_IWUSR);
 module_param_array_named(minfree, lowmem_minfree, uint, &lowmem_minfree_size,

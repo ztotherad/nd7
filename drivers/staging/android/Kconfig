@@ -101,8 +101,7 @@ config SEC_OOM_KILLER
           Hence, it makes more sense that we select the oom victim
           as android does when LMK is invoked.
 
-<<<<<<< HEAD
-=======
+
 config ANDROID_LOW_MEMORY_KILLER_AUTODETECT_OOM_ADJ_VALUES
 	bool "Android Low Memory Killer: detect oom_adj values"
 	depends on ANDROID_LOW_MEMORY_KILLER
@@ -123,7 +122,6 @@ config SEC_OOM_KILLER
           Hence, it makes more sense that we select the oom victim
           as android does when LMK is invoked.
 
->>>>>>> 0645fed... LMK update
 endif # if ANDROID
 
 endmenu
