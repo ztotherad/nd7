@@ -5,7 +5,6 @@ KERNEL_PATH=$PWD
 
 # Set toolchain path
 if [ "$(whoami)" == "ztotherad" ]; then
-	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/arm-eabi-4.4.3/bin"
 	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/arm-eabi-4.8/bin"
 	TOOLCHAIN_PATH="/home/ztotherad/toolchains/arm-eabi-4.9/bin"
 	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/arm-eabi-4.10/bin"
