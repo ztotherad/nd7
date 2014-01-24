@@ -945,8 +945,6 @@ static struct dmi_system_id __initdata ec_dmi_table[] = {
 	{
 	ec_validate_ecdt, "ASUS hardware", {
 	DMI_MATCH(DMI_BOARD_VENDOR, "ASUSTeK Computer Inc.") }, NULL},
-<<<<<<< HEAD
-=======
 	{
 	ec_enlarge_storm_threshold, "CLEVO hardware", {
 	DMI_MATCH(DMI_SYS_VENDOR, "CLEVO Co."),
@@ -959,7 +957,7 @@ static struct dmi_system_id __initdata ec_dmi_table[] = {
 	ec_validate_ecdt, "ASUS hardware", {
 	DMI_MATCH(DMI_SYS_VENDOR, "ASUSTek Computer Inc."),
 	DMI_MATCH(DMI_PRODUCT_NAME, "L4R"),}, NULL},
->>>>>>> 11fcd1c... Linux 3.0.95
+
 	{},
 };
 

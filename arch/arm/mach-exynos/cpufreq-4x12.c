@@ -580,7 +580,11 @@ static void exynos4x12_set_frequency(unsigned int old_index,
 		if (exynos4x12_volt_table[new_index] >= 950000 &&
 				need_dynamic_ema)
 				__raw_writel(0x101, EXYNOS4_EMA_CONF);
+<<<<<<< HEAD
 
+=======
+#ifndef CONFIG_ABB_CONTROL
+>>>>>>> 3939585... Implemented Adaptive Body Bias (ABB)
 		if ((soc_is_exynos4212())
 			&& (exynos_result_of_asv > 3)
 			&& (old_index > L7) && (new_index <= L7)) {
@@ -590,6 +594,9 @@ static void exynos4x12_set_frequency(unsigned int old_index,
 			&& (old_index > L10) && (new_index <= L10)) {
 			exynos4x12_set_abb_member(ABB_ARM, ABB_MODE_130V);
 		}
+#else
+		abb_target(ABB_ARM, exynos4x12_freq_table[new_index].frequency);
+#endif
 
 		if (!exynos4x12_pms_change(old_index, new_index)) {
 			/* 1. Change the system clock divider values */
@@ -623,6 +630,10 @@ static void exynos4x12_set_frequency(unsigned int old_index,
 			/* 2. Change the system clock divider values */
 			set_clkdiv(new_index);
 		}
+<<<<<<< HEAD
+=======
+#ifndef CONFIG_ABB_CONTROL
+>>>>>>> 3939585... Implemented Adaptive Body Bias (ABB)
 		if ((soc_is_exynos4212())
 			&& (exynos_result_of_asv > 3)
 			&& (old_index <= L7) && (new_index > L7)) {
@@ -632,11 +643,15 @@ static void exynos4x12_set_frequency(unsigned int old_index,
 			&& (old_index <= L10) && (new_index > L10)) {
 			exynos4x12_set_abb_member(ABB_ARM, ABB_MODE_100V);
 		}
+#else
+		abb_target(ABB_ARM, exynos4x12_freq_table[new_index].frequency);
+#endif
 		if (exynos4x12_volt_table[new_index] < 950000 &&
 				need_dynamic_ema)
 			__raw_writel(0x404, EXYNOS4_EMA_CONF);
 	}
 
+#ifndef CONFIG_ABB_CONTROL
 	/* ABB value is changed in below case */
 	if (soc_is_exynos4412() && (exynos_result_of_asv > 3)
 		&& (samsung_rev() < EXYNOS4412_REV_2_0)) {
@@ -645,6 +660,8 @@ static void exynos4x12_set_frequency(unsigned int old_index,
 		else
 			exynos4x12_set_abb_member(ABB_ARM, ABB_MODE_130V);
 	}
+#endif
+
 }
 
 /* Get maximum cpufreq index of chip */
