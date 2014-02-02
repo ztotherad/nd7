@@ -169,6 +169,9 @@ config CPU_FREQ_DEFAULT_GOV_WHEATLEY
 	help
 	  Use the CPUFreq governor 'wheatley' as default.
      
+config CPU_FREQ_DEFAULT_GOV_YANKASUSQ
+	bool "yankasusq"
+	select CPU_FREQ_GOV_YANKASUSQ
 endchoice
 
 config CPU_FREQ_GOV_PERFORMANCE
@@ -331,6 +334,11 @@ config CPU_FREQ_GOV_ZZMOOVE
 	   % frequency steps to get smooth up/downscaling dependant on CPU load.
 
 	   If in doubt, say N.
+
+config CPU_FREQ_GOV_YANKASUSQ
+	tristate "'yankasusq' cpufreq policy governor"
+	help
+	  based on PegasusQ - This driver is work in progress
 
 config CPU_FREQ_GOV_SLP
 	tristate "'slp' cpufreq policy governor"
