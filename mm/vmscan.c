@@ -2806,6 +2806,15 @@ static void kswapd_try_to_sleep(pg_data_t *pgdat, int order, int classzone_idx)
 		 * per-cpu vmstat threshold while kswapd is awake and restore
 		 * them before going back to sleep.
 		 */
+<<<<<<< HEAD
+=======
+
+#ifdef CONFIG_ZRAM_FOR_ANDROID
+		atomic_set(&kswapd_thread_on,0);
+#endif /* CONFIG_ZRAM_FOR_ANDROID */
+
+		set_pgdat_percpu_threshold(pgdat, calculate_normal_threshold);
+>>>>>>> 0645fed... LMK update
 
 #ifdef CONFIG_ZRAM_FOR_ANDROID
 		atomic_set(&kswapd_thread_on,0);
@@ -3005,11 +3014,19 @@ static unsigned long rtcc_do_try_to_free_pages(struct zonelist *zonelist, struct
 {
 	int priority;
 	unsigned long total_scanned = 0;
+<<<<<<< HEAD
+=======
+	unsigned int cpuset_mems_cookie;
+>>>>>>> 0645fed... LMK update
 	struct zoneref *z;
 	struct zone *zone;
 	unsigned long writeback_threshold;
 
+<<<<<<< HEAD
 	get_mems_allowed();
+=======
+  	cpuset_mems_cookie = get_mems_allowed();
+>>>>>>> 0645fed... LMK update
 	delayacct_freepages_start();
 
 	if (scanning_global_lru(sc))
@@ -3051,7 +3068,11 @@ static unsigned long rtcc_do_try_to_free_pages(struct zonelist *zonelist, struct
 
 out:
 	delayacct_freepages_end();
+<<<<<<< HEAD
 	put_mems_allowed();
+=======
+	put_mems_allowed(cpuset_mems_cookie);
+>>>>>>> 0645fed... LMK update
 
 	if (sc->nr_reclaimed)
 		return sc->nr_reclaimed;
@@ -3090,7 +3111,10 @@ long rtcc_reclaim_pages(long nr_to_reclaim)
 	struct task_struct *p = current;
 	unsigned long nr_reclaimed;
 
+<<<<<<< HEAD
 	printk("RTCC, start reclaim!\n");
+=======
+>>>>>>> 0645fed... LMK update
 	p->flags |= PF_MEMALLOC;
 	lockdep_set_current_reclaim_state(sc.gfp_mask);
 	reclaim_state.reclaimed_slab = 0;
