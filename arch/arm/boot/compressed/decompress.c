@@ -44,13 +44,11 @@ extern void error(char *);
 #include "../../../../lib/decompress_unlzma.c"
 #endif
 
-<<<<<<< HEAD
 #ifdef CONFIG_KERNEL_XZ
 #include "../../../../lib/decompress_unxz.c"
-=======
+
 #ifdef CONFIG_KERNEL_LZ4
 #include "../../../../lib/decompress_unlz4.c"
->>>>>>> 8009318... arm: Add support for LZ4-compressed kernel
 #endif
 
 int do_decompress(u8 *input, int len, u8 *output, void (*error)(char *x))
