@@ -826,13 +826,11 @@ static void synaptics_ts_read_points(struct synaptics_drv_data *data,
 			break;
 		}
 	}
-<<<<<<< HEAD
-=======
+
 #if defined(CONFIG_TOUCH_WAKE)
 		if (suspend_flag && touch_released == true)
 			touch_press();
 #endif
->>>>>>> 36600d4... Touch Wake: Implement double tap to wake (knockon) functionality, bump version to 1.2 (n5110 version)
 	input_sync(data->input);
 	set_dvfs_lock(data, finger_pressed);
 
@@ -857,13 +855,11 @@ static irqreturn_t synaptics_ts_irq_handler(int irq, void *_data)
 #if defined(CONFIG_HAS_EARLYSUSPEND)
 static void synaptics_ts_early_suspend(struct early_suspend *h)
 {
-<<<<<<< HEAD
-=======
+
 #if defined(CONFIG_TOUCH_WAKE)
   suspend_flag = true;
 #endif
 #if !defined(CONFIG_TOUCH_WAKE)
->>>>>>> 36600d4... Touch Wake: Implement double tap to wake (knockon) functionality, bump version to 1.2 (n5110 version)
 	struct synaptics_drv_data *data =
 		container_of(h, struct synaptics_drv_data, early_suspend);
 #if defined(CONFIG_MACH_KONA)
@@ -890,13 +886,11 @@ static void synaptics_ts_early_suspend(struct early_suspend *h)
 
 static void synaptics_ts_late_resume(struct early_suspend *h)
 {
-<<<<<<< HEAD
-=======
+
 #if defined(CONFIG_TOUCH_WAKE)
   suspend_flag = false;
 #endif
 #if !defined(CONFIG_TOUCH_WAKE)
->>>>>>> 36600d4... Touch Wake: Implement double tap to wake (knockon) functionality, bump version to 1.2 (n5110 version)
 	struct synaptics_drv_data *data =
 		container_of(h, struct synaptics_drv_data, early_suspend);
 
