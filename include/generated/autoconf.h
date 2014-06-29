@@ -1,6 +1,6 @@
 /*
  * Automatically generated C config: don't edit
- * Linux/arm 3.0.73 Kernel Configuration
+ * Linux/arm 3.0.73energySTOCK--i605 Kernel Configuration
  */
 #define CONFIG_RING_BUFFER 1
 #define CONFIG_NF_CONNTRACK_H323 1
@@ -455,6 +455,7 @@
 #define CONFIG_RD_GZIP 1
 #define CONFIG_HAVE_REGS_AND_STACK_ACCESS_API 1
 #define CONFIG_LBDAF 1
+#define CONFIG_GPU_CLOCK_CONTROL 1
 #define CONFIG_EXT4_FS_SECURITY 1
 #define CONFIG_HID_ROCCAT 1
 #define CONFIG_INET_XFRM_MODE_TRANSPORT 1

@@ -36,10 +36,9 @@ typedef struct mali_dvfs_tableTag{
     unsigned int upthreshold;
 }mali_dvfs_table;
 
-<<<<<<< HEAD:drivers/gpu/mali400/r3p2/mali/common/gpu_control.c
-<<<<<<< HEAD:drivers/gpu/mali400/r3p2/mali/common/gpu_clock_control.c
+
 extern mali_dvfs_table mali_dvfs[5];
-=======
+
 extern mali_dvfs_table mali_dvfs[MALI_STEPS];
 unsigned int gv[MALI_STEPS];
 
@@ -69,10 +68,8 @@ static ssize_t gpu_voltage_store(struct device *dev, struct device_attribute *at
         }
         return count;
 }
->>>>>>> 5d23c72... gpu control: voltage and clock control in one file:drivers/gpu/mali400/r3p2/mali/common/gpu_control.c
-=======
+
 extern mali_dvfs_table mali_dvfs[MALI_STEPS];
->>>>>>> 13b2e54... properly added 5th step to mali control:drivers/gpu/mali400/r3p2/mali/common/gpu_clock_control.c
 
 static ssize_t gpu_clock_show(struct device *dev, struct device_attribute *attr, char *buf) {
         return sprintf(buf, "Step0: %d\nStep1: %d\nStep2: %d\nStep3: %d\nStep4: %d\n"
