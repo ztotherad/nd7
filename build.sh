@@ -47,7 +47,7 @@ make -j`grep 'processor' /proc/cpuinfo | wc -l` || exit -1
 
 # Copying and stripping kernel modules
 echo 'moving modules'
-find -name '*.ko' -exec mv {} $MODULES \;
+find -name '*.ko' -exec cp -av {} $MODULES \;
 	"$TOOLCHAIN"strip --strip-unneeded $MODULES/*
 
 echo 'move zImage'
