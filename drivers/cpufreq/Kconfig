@@ -154,6 +154,7 @@ config CPU_FREQ_DEFAULT_GOV_INTELLIACTIVE
 	  loading your cpufreq low-level hardware driver, using the
 	  'interactive' governor for latency-sensitive workloads.
 
+<<<<<<< HEAD
 config CPU_FREQ_DEFAULT_GOV_WHEATLEY
 	bool "wheatley"
 	select CPU_FREQ_GOV_WHEATLEY
@@ -161,6 +162,20 @@ config CPU_FREQ_DEFAULT_GOV_WHEATLEY
 	help
 	  Use the CPUFreq governor 'wheatley' as default.
      
+=======
+config CPU_FREQ_DEFAULT_GOV_SAKURACTIVE
+        bool "sakuractive"
+        select CPU_FREQ_GOV_SAKURACTIVE
+        help
+          Use the CPUFreq governor 'sakuractive' as default. This allows you
+	  to get a full dynamic frequency capable system with CPU
+	  hotplug support by simply loading your cpufreq low-level
+	  hardware driver.  Be aware that not all cpufreq drivers
+	  support the hotplug governor. If unsure have a look at
+	  the help section of the driver. Fallback governor will be the
+	  performance governor.
+  
+>>>>>>> 036c152... Added Sakuractive Governor
 endchoice
 
 config CPU_FREQ_GOV_PERFORMANCE
@@ -312,6 +327,7 @@ config CPU_FREQ_GOV_LULZACTIVEQ
         tristate "'lulzactiveq' cpufreq governor"
         depends on CPU_FREQ
         help
+<<<<<<< HEAD
           'lulzactiveq' - hotplug mechanism added in lulzactive
           
 config CPU_FREQ_GOV_ZZMOOVE
@@ -363,6 +379,50 @@ config CPU_FREQ_GOV_WHEATLEY
 	tristate "'wheatley' cpufreq governor"
 	depends on CPU_FREQ	  
 
+=======
+          'abyssplug' - this driver mimics the frequency scaling behavior
+          in 'ondemand', but with several key differences. First is
+          that frequency transitions use the CPUFreq table directly,
+          instead of incrementing in a percentage of the maximum
+          available frequency. Second 'abyssplug' will offline auxillary
+          CPUs when the system is idle, and online those CPUs once the
+          system becomes busy again. This last feature is needed for
+          architectures which transition to low power states when only
+          the "master" CPU is online, or for thermally constrained
+          devices.
+
+          If you don't have one of these architectures or devices, use
+          'ondemand' instead.
+
+          If in doubt, say N.
+
+config CPU_FREQ_GOV_SMARTASS2	
+	tristate "'smartassV2' cpufreq governor"	
+	depends on CPU_FREQ	
+	help	
+	  'smartassV2' - a "smart" governor
+	
+	  If in doubt, say N.          
+     
+config CPU_FREQ_GOV_SAKURACTIVE
+        tristate "'sakuractive' cpufreq governor"
+        depends on CPU_FREQ
+        help
+          'sakuractive' - this driver mimics the frequency scaling behavior
+	  in 'ondemand', but with several key differences.  First is
+	  that frequency transitions use the CPUFreq table directly,
+	  instead of incrementing in a percentage of the maximum
+	  available frequency.  Second 'sakuractive' will offline auxillary
+	  CPUs when the system is idle, and online those CPUs once the
+	  system becomes busy again.  This last feature is needed for
+	  architectures which transition to low power states when only
+	  the "master" CPU is online, or for thermally constrained
+	  devices.
+  	  
+	  If in doubt, say N.
+
+     
+>>>>>>> 036c152... Added Sakuractive Governor
 menu "x86 CPU frequency scaling drivers"
 depends on X86
 source "drivers/cpufreq/Kconfig.x86"
