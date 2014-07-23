@@ -3,9 +3,6 @@
 # set default path
 KERNEL_PATH=$PWD
 
-echo "house cleaning properly before compiling!"
-make clean
-
 # Set toolchain path
 if [ "$(whoami)" == "ztotherad" ]; then
 	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/gcc-4.7/bin"
@@ -15,10 +12,7 @@ elif [ "$(whoami)" == "rollus" ]; then
 
 fi
 
-#TOOLCHAIN="$TOOLCHAIN_PATH/arm-linux-gnueabi-"
-#TOOLCHAIN="$TOOLCHAIN_PATH/arm-gnueabi-"
 TOOLCHAIN="$TOOLCHAIN_PATH/arm-eabi-"
-#TOOLCHAIN="$TOOLCHAIN_PATH/arm-linux-androideabi-"
 MODULES="$KERNEL_PATH/ramdisk/lib/modules/"
 ROOTFS_PATH="$KERNEL_PATH/ramdisk"
 
