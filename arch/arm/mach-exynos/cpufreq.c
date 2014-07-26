@@ -33,9 +33,7 @@
 #include <plat/cpu.h>
 
 #if defined(CONFIG_MACH_PX) || defined(CONFIG_MACH_Q1_BD) ||\
-	defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_SP7160LTE) ||\
-	defined(CONFIG_MACH_GC1) || defined(CONFIG_MACH_TAB3) ||\
-	defined(CONFIG_MACH_GC2PD)
+	defined(CONFIG_MACH_P4NOTE) || defined(CONFIG_MACH_GC1)
 #include <mach/sec_debug.h>
 #endif
 
@@ -638,13 +636,6 @@ static int exynos_cpufreq_notifier_event(struct notifier_block *this,
 						exynos_info->pm_lock_idx);
 		if (ret < 0)
 			return NOTIFY_BAD;
-#elif defined(CONFIG_ARCH_EXYNOS4)
-		if (soc_is_exynos4212()) {
-			ret = exynos_cpufreq_upper_limit(DVFS_LOCK_ID_PM,
-					exynos_info->pm_lock_idx);
-			if (ret < 0)
-				return NOTIFY_BAD;
-		}
 #endif
 		exynos_cpufreq_disable = true;
 
@@ -668,9 +659,6 @@ static int exynos_cpufreq_notifier_event(struct notifier_block *this,
 		exynos_cpufreq_lock_free(DVFS_LOCK_ID_PM);
 #if defined(CONFIG_CPU_EXYNOS4210) || defined(CONFIG_SLP)
 		exynos_cpufreq_upper_limit_free(DVFS_LOCK_ID_PM);
-#elif defined(CONFIG_ARCH_EXYNOS4)
-		if (soc_is_exynos4212())
-			exynos_cpufreq_upper_limit_free(DVFS_LOCK_ID_PM);
 #endif
 		exynos_cpufreq_disable = false;
 		/* If current governor is userspace or performance or powersave,
@@ -761,6 +749,11 @@ static struct notifier_block exynos_cpufreq_reboot_notifier = {
 	.notifier_call = exynos_cpufreq_reboot_notifier_call,
 };
 
+static struct freq_attr *exynos_cpufreq_attr[] = {
+	&cpufreq_freq_attr_scaling_available_freqs,
+	NULL,
+};
+
 static struct cpufreq_driver exynos_driver = {
 	.flags		= CPUFREQ_STICKY,
 	.verify		= exynos_verify_speed,
@@ -772,6 +765,7 @@ static struct cpufreq_driver exynos_driver = {
 	.suspend	= exynos_cpufreq_suspend,
 	.resume		= exynos_cpufreq_resume,
 #endif
+	.attr		= exynos_cpufreq_attr,
 };
 
 static int __init exynos_cpufreq_init(void)
@@ -851,22 +845,14 @@ late_initcall(exynos_cpufreq_init);
 
 /* sysfs interface for UV control */
 ssize_t show_UV_mV_table(struct cpufreq_policy *policy, char *buf) {
-<<<<<<< HEAD
-  
-=======
 
->>>>>>> d095acb... cpufreq: CPU undervolting interface
   int i, len = 0;
   if (buf)
   {
     for (i = exynos_info->max_support_idx; i<=exynos_info->min_support_idx; i++)
     {
       if(exynos_info->freq_table[i].frequency==CPUFREQ_ENTRY_INVALID) continue;
-<<<<<<< HEAD
-      len += sprintf(buf + len, "%dmhz: %d mV\n", exynos_info->freq_table[i].frequency/1000, 
-=======
       len += sprintf(buf + len, "%dmhz: %d mV\n", exynos_info->freq_table[i].frequency/1000,
->>>>>>> d095acb... cpufreq: CPU undervolting interface
 					((exynos_info->volt_table[i] % 1000) + exynos_info->volt_table[i])/1000);
     }
   }
@@ -877,25 +863,6 @@ ssize_t store_UV_mV_table(struct cpufreq_policy *policy,
                                       const char *buf, size_t count) {
 
 	unsigned int ret = -EINVAL;
-<<<<<<< HEAD
-    int i = 0;
-    int j = 0;
-	int u[16];
-    ret = sscanf(buf, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", &u[0], &u[1], &u[2], &u[3], &u[4], &u[5], &u[6], 
-															&u[7], &u[8], &u[9], &u[10], &u[11], &u[12], &u[13], &u[14], &u[15]);
-	if(ret != 16) {
-		ret = sscanf(buf, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d", &u[0], &u[1], &u[2], &u[3], &u[4], &u[5], &u[6], 
-															&u[7], &u[8], &u[9], &u[10], &u[11], &u[12], &[13], &u[14]);
-		if(ret != 15) {
-			ret = sscanf(buf, "%d %d %d %d %d %d %d %d %d %d %d %d %d %d", &u[0], &u[1], &u[2], &u[3], &u[4], &u[5], &u[6], 
-															&u[7], &u[8], &u[9], &u[10], &u[11], &u[12], &[13]);
-			if( ret != 14)
-				return -EINVAL;
-		}
-	}
-		
-	for( i = 0; i < 16; i++ )
-=======
    int i = 0;
    int j = 0;
 	int u[15];
@@ -913,17 +880,12 @@ ssize_t store_UV_mV_table(struct cpufreq_policy *policy,
 	}
 
 	for( i = 0; i < 15; i++ )
->>>>>>> d095acb... cpufreq: CPU undervolting interface
 	{
 		u[i] *= 1000;
 		// round down voltages - thx to AndreiLux
 		if(u[i] % 12500)
 			u[i] = (u[i] / 12500) * 12500;
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> d095acb... cpufreq: CPU undervolting interface
 		if (u[i] > CPU_UV_MV_MAX) {
 			u[i] = CPU_UV_MV_MAX;
 		}
@@ -931,13 +893,8 @@ ssize_t store_UV_mV_table(struct cpufreq_policy *policy,
 			u[i] = CPU_UV_MV_MIN;
 		}
 	}
-<<<<<<< HEAD
-	
-	for( i = 0; i < 16; i++ ) {
-=======
 
 	for( i = 0; i < 15; i++ ) {
->>>>>>> d095acb... cpufreq: CPU undervolting interface
 		while(exynos_info->freq_table[i+j].frequency==CPUFREQ_ENTRY_INVALID)
 			j++;
 		exynos_info->volt_table[i+j] = u[i];
