@@ -1,12 +1,7 @@
 VERSION = 3
 PATCHLEVEL = 0
-<<<<<<< HEAD
-SUBLEVEL = 31
-EXTRAVERSION = energy kernel
-=======
 SUBLEVEL = 73
 EXTRAVERSION =
->>>>>>> 008655b... Linux 3.0.73
 NAME = Sneaky Weasel
 
 # *DOCUMENTATION*
