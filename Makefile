@@ -193,11 +193,8 @@ SUBARCH := $(shell uname -m | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH		?=arm
-<<<<<<< HEAD
-CROSS_COMPILE	?=$(TOOLCHAIN_PATH)
-=======
-CROSS_COMPILE	?=/home/paf/Escritorio/toolchains/arm-linux-androideabi-4.7/bin/arm-linux-androideabi-
->>>>>>> 1cebf90... Change toolchain to GCC 4.7 and fix build errors
+CROSS_COMPILE	?=/home/ztotherad/toolchains/gcc-4.7/bin/arm-linux-androideabi-
+
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
 SRCARCH 	:= $(ARCH)
@@ -352,11 +349,7 @@ CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
 CFLAGS_MODULE   = -fno-pic
 AFLAGS_MODULE   =
-<<<<<<< HEAD
-LDFLAGS_MODULE  =
-=======
-LDFLAGS_MODULE  =  --strip-debug
->>>>>>> 1cebf90... Change toolchain to GCC 4.7 and fix build errors
+LDFLAGS_MODULE  =  
 CFLAGS_KERNEL	=
 AFLAGS_KERNEL	=
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
@@ -375,15 +368,10 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Werror-implicit-function-declaration \
 		   -Wno-format-security \
-<<<<<<< HEAD
-		   -fno-delete-null-pointer-checks
-		   
-=======
 		   -fno-delete-null-pointer-checks \
 		   -marm -march=armv7-a \
 		   -mcpu=cortex-a9 -mfpu=neon -mtune=cortex-a9 -fno-pic \
 		   -munaligned-access
->>>>>>> 1cebf90... Change toolchain to GCC 4.7 and fix build errors
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
 KBUILD_AFLAGS   := -D__ASSEMBLY__
@@ -722,12 +710,12 @@ export MODLIB
 #
 #  INSTALL_MOD_STRIP, if defined, will cause modules to be
 #  stripped after they are installed.  If INSTALL_MOD_STRIP is '1', then
-#  the default option --strip-debug will be used.  Otherwise,
+#  the default option  will be used.  Otherwise,
 #  INSTALL_MOD_STRIP value will be used as the options to the strip command.
 
 ifdef INSTALL_MOD_STRIP
 ifeq ($(INSTALL_MOD_STRIP),1)
-mod_strip_cmd = $(STRIP) --strip-debug
+mod_strip_cmd = $(STRIP) 
 else
 mod_strip_cmd = $(STRIP) $(INSTALL_MOD_STRIP)
 endif # INSTALL_MOD_STRIP=1
