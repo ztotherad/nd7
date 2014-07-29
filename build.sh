@@ -5,8 +5,8 @@ KERNEL_PATH=$PWD
 
 # Set toolchain path
 if [ "$(whoami)" == "ztotherad" ]; then
-	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/gcc-4.7/bin"
-	TOOLCHAIN_PATH="/home/ztotherad/toolchains/arm-eabi-4.4.3/bin"
+	TOOLCHAIN_PATH="/home/ztotherad/toolchains/gcc-4.7/bin"
+	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/arm-eabi-4.4.3/bin"
 	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/linaro-4.7.3/bin"
 	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/linaro-4.9.1/bin"
 elif [ "$(whoami)" == "rollus" ]; then
@@ -14,8 +14,8 @@ elif [ "$(whoami)" == "rollus" ]; then
 
 fi
 
-TOOLCHAIN="$TOOLCHAIN_PATH/arm-eabi-"
-#TOOLCHAIN="$TOOLCHAIN_PATH/arm-linux-androideabi-"
+#TOOLCHAIN="$TOOLCHAIN_PATH/arm-eabi-"
+TOOLCHAIN="$TOOLCHAIN_PATH/arm-linux-androideabi-"
 MODULES="$KERNEL_PATH/ramdisk/lib/modules"
 ROOTFS_PATH="$KERNEL_PATH/ramdisk"
 
