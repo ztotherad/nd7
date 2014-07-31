@@ -23,13 +23,13 @@ ROOTFS_PATH="$KERNEL_PATH/ramdisk"
 
 defconfig=t0_04_defconfig
 
-export LOCALVERSION="-$displayversion"
+export LOCALVERSION="$displayversion"
 export KERNELDIR=$KERNEL_PATH
 export CROSS_COMPILE=$TOOLCHAIN
 export ARCH=arm
 
 
-displayversion=energySTOCK_v0.1
+displayversion=energySTOCK
 
 version=$displayversion-$(date +%Y%m%d)
 
@@ -65,7 +65,7 @@ cp -f boot.img $KERNEL_PATH/releasetools/zip/
 # creating flashable zip
 cd $KERNEL_PATH
 cd releasetools/zip
-zip -0 -r $version-$DATE.zip *
+zip -0 -r $version.zip *
 mkdir -p $KERNEL_PATH/release
 mv *.zip $KERNEL_PATH/release
 cd ..
