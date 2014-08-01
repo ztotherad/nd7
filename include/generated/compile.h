@@ -1,7 +1,7 @@
-/* This file is auto generated, version 2 */
+/* This file is auto generated, version 3 */
 /* SMP PREEMPT */
 #define UTS_MACHINE "arm"
-#define UTS_VERSION "#2 SMP PREEMPT Fri Aug 1 09:03:16 CDT 2014"
+#define UTS_VERSION "#3 SMP PREEMPT Fri Aug 1 14:48:15 CDT 2014"
 #define LINUX_COMPILE_BY "ztotherad"
 #define LINUX_COMPILE_HOST "archbng"
-#define LINUX_COMPILER "gcc version 4.7.4 20140402 (prerelease) (crosstool-NG linaro-1.13.1+bzr2651 - Linaro GCC 2014.04 - Cortex-A9) "
+#define LINUX_COMPILER "gcc version 4.9.1 20140427 (prerelease) (UBER-SaberMod-4.9.1-ARM-Graphite) "
