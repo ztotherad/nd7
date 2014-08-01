@@ -7,15 +7,16 @@ KERNEL_PATH=$PWD
 if [ "$(whoami)" == "ztotherad" ]; then
 	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/arm-eabi-4.4.3/bin"
 	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/arm-eabi-4.8/bin"
+	TOOLCHAIN_PATH="/home/ztotherad/toolchains/arm-eabi-4.9/bin"
 	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/arm-eabi-4.10/bin"
-	TOOLCHAIN_PATH="/home/ztotherad/toolchains/linaro-4.7.4/bin"
+	#TOOLCHAIN_PATH="/home/ztotherad/toolchains/linaro-4.7.4/bin"
 elif [ "$(whoami)" == "rollus" ]; then
 	TOOLCHAIN_PATH="/home/rollus/toolchains/arm-eabi-4.4.3/bin"
 
 fi
 
-#TOOLCHAIN="$TOOLCHAIN_PATH/arm-eabi-"
-TOOLCHAIN="$TOOLCHAIN_PATH/arm-gnueabi-"
+TOOLCHAIN="$TOOLCHAIN_PATH/arm-eabi-"
+#TOOLCHAIN="$TOOLCHAIN_PATH/arm-gnueabi-"
 #TOOLCHAIN="$TOOLCHAIN_PATH/arm-linux-androideabi-"
 MODULES="$KERNEL_PATH/ramdisk/lib/modules"
 ROOTFS_PATH="$KERNEL_PATH/ramdisk"
