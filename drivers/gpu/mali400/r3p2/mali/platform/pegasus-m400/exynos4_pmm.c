@@ -701,19 +701,15 @@ mali_bool mali_dvfs_table_update(void)
 {
 	unsigned int i, tmp, g3d_lock_volt = 0;
 	unsigned int step_num = MALI_DVFS_STEPS;
-<<<<<<< HEAD
 	bool lock_flag_g3d = false;
-=======
 
 #if defined(CONFIG_CPU_EXYNOS4212) || defined(CONFIG_CPU_EXYNOS4412)
         unsigned int i;
         unsigned int j;
->>>>>>> 750c8f6... gpu control: automatically apply correct voltages according to choosen freq (thanks to yank555-lu for his implementation)
 
         // Yank555.lu : Update voltage for all 5 freq. steps based on true freq. table
         for (i = 0; i < step_num; i++) {
 
-<<<<<<< HEAD
 	if(soc_is_exynos4412()) {
 		if (exynos_armclk_max == 1000000) {
 			MALI_PRINT(("::C::exynos_result_of_asv : %d\n", exynos_result_of_asv));
@@ -787,7 +783,6 @@ mali_bool mali_dvfs_table_update(void)
 			for (i = 0; i < step_num; i++) {
 				mali_dvfs[i].vol = asv_3d_volt_9_table[i][exynos_result_of_asv];
 				MALI_PRINT(("mali_dvfs[%d].vol = %d \n", i, mali_dvfs[i].vol));
-=======
                 for (j = 0; gpu_freq_table[j] != GPU_FREQ_END_OF_TABLE; j++) {
 
                         if (gpu_freq_table[j] == mali_dvfs[i].clock) { // Yank555.lu : if we have found the right freq. step, use that voltage
@@ -804,7 +799,6 @@ mali_bool mali_dvfs_table_update(void)
         }
 #else
 	unsigned int i, exynos_result_of_asv_group, target_asv;
->>>>>>> 750c8f6... gpu control: automatically apply correct voltages according to choosen freq (thanks to yank555-lu for his implementation)
 
 				// Update voltage using for resume
 				if (mali_runtime_resume.clk == mali_dvfs[i].clock) {
@@ -897,12 +891,9 @@ static mali_bool mali_dvfs_status(unsigned int utilization)
 	unsigned int nextStatus = 0;
 	unsigned int curStatus = 0;
 	mali_bool boostup = MALI_FALSE;
-<<<<<<< HEAD
 	static int stay_count = 5;
 #ifdef EXYNOS4_ASV_ENABLED
-=======
 /*#ifdef EXYNOS4_ASV_ENABLED
->>>>>>> 750c8f6... gpu control: automatically apply correct voltages according to choosen freq (thanks to yank555-lu for his implementation)
 	static mali_bool asv_applied = MALI_FALSE;
 #endif
 
@@ -967,10 +958,7 @@ static void mali_dvfs_work_handler(struct work_struct *w)
 	    if (step0_clk != mali_dvfs[0].clock) {
                 MALI_PRINT(("::: step0_clk change to %d Mhz\n", step0_clk));
                 mali_dvfs[0].clock = step0_clk;
-<<<<<<< HEAD
 		gpu_voltage_delta_reset(0);
-=======
->>>>>>> 750c8f6... gpu control: automatically apply correct voltages according to choosen freq (thanks to yank555-lu for his implementation)
 		needs_update=1;
 	    }
         }
@@ -979,10 +967,7 @@ static void mali_dvfs_work_handler(struct work_struct *w)
 	    if (step1_clk != mali_dvfs[1].clock) {
                 MALI_PRINT(("::: step1_clk change to %d Mhz\n", step1_clk));
                 mali_dvfs[1].clock = step1_clk;
-<<<<<<< HEAD
 		gpu_voltage_delta_reset(1);
-=======
->>>>>>> 750c8f6... gpu control: automatically apply correct voltages according to choosen freq (thanks to yank555-lu for his implementation)
 		needs_update=1;
 	    }
         }
@@ -999,10 +984,7 @@ static void mali_dvfs_work_handler(struct work_struct *w)
 	    if (step2_clk != mali_dvfs[2].clock) {
                 MALI_PRINT(("::: step2_clk change to %d Mhz\n", step2_clk));
                 mali_dvfs[2].clock = step2_clk;
-<<<<<<< HEAD
 		gpu_voltage_delta_reset(2);
-=======
->>>>>>> 750c8f6... gpu control: automatically apply correct voltages according to choosen freq (thanks to yank555-lu for his implementation)
 		needs_update=1;
 	    }
         }
@@ -1019,10 +1001,7 @@ static void mali_dvfs_work_handler(struct work_struct *w)
 	    if (step3_clk != mali_dvfs[3].clock) {
                 MALI_PRINT(("::: step3_clk change to %d Mhz\n", step3_clk));
                 mali_dvfs[3].clock = step3_clk;
-<<<<<<< HEAD
 		gpu_voltage_delta_reset(3);
-=======
->>>>>>> 750c8f6... gpu control: automatically apply correct voltages according to choosen freq (thanks to yank555-lu for his implementation)
 		needs_update=1;
 	    }
         }
@@ -1039,10 +1018,7 @@ static void mali_dvfs_work_handler(struct work_struct *w)
 	    if (step4_clk != mali_dvfs[4].clock) {
                 MALI_PRINT(("::: step4_clk change to %d Mhz\n", step4_clk));
                 mali_dvfs[4].clock = step4_clk;
-<<<<<<< HEAD
 		gpu_voltage_delta_reset(4);
-=======
->>>>>>> 750c8f6... gpu control: automatically apply correct voltages according to choosen freq (thanks to yank555-lu for his implementation)
 		needs_update=1;
 	    }
         }
@@ -1089,17 +1065,14 @@ mali_bool init_mali_dvfs_status(void)
 	/* add a error handling here */
 	maliDvfsStatus.currentStep = MALI_DVFS_DEFAULT_STEP;
 
-<<<<<<< HEAD
 /*#ifdef EXYNOS4_ASV_ENABLED
         mali_dvfs_table_update();
         change_mali_dvfs_status(1, 0);
 #endif*/
-=======
 #ifdef EXYNOS4_ASV_ENABLED
         mali_dvfs_table_update();
         change_mali_dvfs_status(1, 0);
 #endif
->>>>>>> 750c8f6... gpu control: automatically apply correct voltages according to choosen freq (thanks to yank555-lu for his implementation)
 
 	return MALI_TRUE;
 }
