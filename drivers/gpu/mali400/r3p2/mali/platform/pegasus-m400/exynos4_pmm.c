@@ -821,8 +821,6 @@ int mali_dvfs_is_running(void)
 static void mali_dvfs_work_handler(struct work_struct *w)
 {
 	bMaliDvfsRun=1;
-<<<<<<< HEAD
-=======
 	needs_update=0;
 
         if (step0_clk != mali_dvfs[0].clock) {
@@ -913,7 +911,6 @@ static void mali_dvfs_work_handler(struct work_struct *w)
 	if(needs_update == 1) {
 	mali_dvfs_table_update();
 	}
->>>>>>> 0fe4f9a... gpu control: if freq chnages, reset corresponding voltage delta
 
 	MALI_DEBUG_PRINT(3, ("=== mali_dvfs_work_handler\n"));
 

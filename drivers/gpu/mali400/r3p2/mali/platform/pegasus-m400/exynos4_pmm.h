@@ -115,8 +115,6 @@ int mali_voltage_lock_pop(void);
 int mali_voltage_lock_init(void);
 int mali_vol_get_from_table(int vol);
 #endif
-<<<<<<< HEAD
-=======
 
 #ifdef CONFIG_CPU_EXYNOS4210
 #define MALI_DVFS_STEPS 3
@@ -139,7 +137,6 @@ extern void gpu_voltage_delta_reset(int step);
 #define MIN_VOLTAGE_GPU 600000
 #define MAX_VOLTAGE_GPU 1400000
 
->>>>>>> 0fe4f9a... gpu control: if freq chnages, reset corresponding voltage delta
 #ifdef __cplusplus
 }
 #endif
