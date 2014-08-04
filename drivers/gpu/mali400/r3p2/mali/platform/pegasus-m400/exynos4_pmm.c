@@ -37,14 +37,11 @@
 
 #include <linux/workqueue.h>
 
-<<<<<<< HEAD
 #define MALI_DVFS_STEPS 5
 #define MALI_DVFS_WATING 10 /* msec */
 #define MALI_DVFS_DEFAULT_STEP 1
 #define PD_G3D_LOCK_FLAG 2
 
-=======
->>>>>>> 777877f... gpu control: internal apply voltage changes as deltas to default voltage.
 #ifdef CONFIG_CPU_FREQ
 #include <mach/asv.h>
 #define EXYNOS4_ASV_ENABLED
@@ -78,8 +75,6 @@ typedef struct mali_dvfs_statusTag{
 mali_dvfs_status_t maliDvfsStatus;
 int mali_dvfs_control;
 
-<<<<<<< HEAD
-=======
 int step0_clk = 160;
 int step0_vol = 875000;
 int step1_clk = 266;
@@ -140,7 +135,6 @@ unsigned int gpu_freq_table[GPU_FREQ_STEPS+1] = {
         GPU_FREQ_END_OF_TABLE
 };
 
->>>>>>> 777877f... gpu control: internal apply voltage changes as deltas to default voltage.
 typedef struct mali_runtime_resumeTag{
 	int clk;
 	int vol;
@@ -697,17 +691,14 @@ static mali_bool mali_dvfs_table_update(void)
 					MALI_PRINT(("mali_runtime_resume.vol = %d \n", mali_runtime_resume.vol));
 				}
 
-<<<<<<< HEAD
 				// update voltage using for init timing
 				if (mali_gpu_clk == mali_dvfs[i].clock) {
 					mali_gpu_vol = mali_dvfs[i].vol;
-=======
                                 MALI_PRINT((":::exynos_result_of_asv : %d\n", exynos_result_of_asv));
 				gpu_voltage_default[i] = asv_3d_volt_9_table[j][exynos_result_of_asv];
                                 mali_dvfs[i].vol = max((unsigned int) MIN_VOLTAGE_GPU, min((unsigned int) MAX_VOLTAGE_GPU, asv_3d_volt_9_table[j][exynos_result_of_asv] + gpu_voltage_delta[i]));
                                 MALI_PRINT(("mali_dvfs[%d].vol = %d (%dMHz)\n", i, mali_dvfs[i].vol, mali_dvfs[i].clock));
                                 break; // No need to go on
->>>>>>> 777877f... gpu control: internal apply voltage changes as deltas to default voltage.
 
 					MALI_PRINT(("init_gpu_vol = %d \n", mali_gpu_vol));
 				}
@@ -849,9 +840,7 @@ static mali_bool mali_dvfs_status(unsigned int utilization)
 	unsigned int nextStatus = 0;
 	unsigned int curStatus = 0;
 	mali_bool boostup = MALI_FALSE;
-<<<<<<< HEAD
 	static int stay_count = 5;
-=======
 #ifdef EXYNOS4_ASV_ENABLED
 	static mali_bool asv_applied = MALI_FALSE;
 #endif
@@ -865,7 +854,6 @@ static mali_bool mali_dvfs_status(unsigned int utilization)
 		return MALI_TRUE;
 	}
 #endif
->>>>>>> 777877f... gpu control: internal apply voltage changes as deltas to default voltage.
 
 	MALI_DEBUG_PRINT(4, ("> mali_dvfs_status: %d \n",utilization));
 
@@ -1025,14 +1013,11 @@ mali_bool init_mali_dvfs_status(void)
 	/* add a error handling here */
 	maliDvfsStatus.currentStep = MALI_DVFS_DEFAULT_STEP;
 
-<<<<<<< HEAD
-=======
 /*#ifdef EXYNOS4_ASV_ENABLED
         mali_dvfs_table_update();
         change_mali_dvfs_status(1, 0);
 #endif*/
 
->>>>>>> 777877f... gpu control: internal apply voltage changes as deltas to default voltage.
 	return MALI_TRUE;
 }
 
