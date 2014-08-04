@@ -22,10 +22,6 @@
 #include "gpu_control.h"
 
 #define GPU_MAX_CLOCK 800
-#define GPU_MIN_CLOCK 10
-#define GPU_MIN_CLOCK 54
-#if defined(CONFIG_CPU_EXYNOS4212) || defined(CONFIG_CPU_EXYNOS4412)
-#define MALI_STEPS 5
 #define GPU_MIN_CLOCK 54
 
 typedef struct mali_dvfs_tableTag{
@@ -36,13 +32,6 @@ typedef struct mali_dvfs_tableTag{
     unsigned int upthreshold;
 }mali_dvfs_table;
 
-
-extern mali_dvfs_table mali_dvfs[5];
-// Yank555.lu : Global voltage delta to be applied to voltage resets
-int gpu_voltage_delta;
-
-extern mali_dvfs_table mali_dvfs[MALI_STEPS];
-unsigned int gv[MALI_STEPS];
 extern mali_dvfs_table mali_dvfs[MALI_DVFS_STEPS];
 unsigned int gv[MALI_DVFS_STEPS];
 extern int step0_clk;
@@ -82,8 +71,6 @@ int gpu_voltage_delta[MALI_DVFS_STEPS] = {
 };
 
 static ssize_t gpu_voltage_show(struct device *dev, struct device_attribute *attr, char *buf) {
-        return sprintf(buf, "Step1: %d\nStep2: %d\nStep3: %d\nStep4: %d\nStep5: %d\n",
-                       mali_dvfs[0].vol, mali_dvfs[1].vol,mali_dvfs[2].vol, mali_dvfs[3].vol, mali_dvfs[4].vol);
 	int i, j = 0;
    	for (i = 0; i < MALI_DVFS_STEPS; i++)
 	{
@@ -96,18 +83,11 @@ static ssize_t gpu_voltage_store(struct device *dev, struct device_attribute *at
                                                                         size_t count) {
         unsigned int ret = -EINVAL;
         int i = 0;
-        ret = sscanf(buf, "%d %d %d %d %d", &gv[0], &gv[1], &gv[2], &gv[3], &gv[4]);
-        if(ret!=MALI_STEPS) return -EINVAL;
         unsigned int gv[MALI_DVFS_STEPS];
 
         ret = sscanf(buf, "%d %d %d %d %d", &gv[0], &gv[1], &gv[2], &gv[3], &gv[4]);
 
         if(ret != MALI_DVFS_STEPS)
-        unsigned int gv[MALI_STEPS];
-
-        ret = sscanf(buf, "%d %d %d %d %d", &gv[0], &gv[1], &gv[2], &gv[3], &gv[4]);
-
-        if(ret != MALI_STEPS)
                 return -EINVAL;
 
         /* safety floor and ceiling - netarchy */
@@ -118,33 +98,6 @@ static ssize_t gpu_voltage_store(struct device *dev, struct device_attribute *at
                 else if (gv[i] > MAX_VOLTAGE_GPU) {
                     gv[i] = MAX_VOLTAGE_GPU;
                 }
-                mali_dvfs[i].vol = gv[i];
-        }
-        return count;
-}
-
-extern mali_dvfs_table mali_dvfs[MALI_STEPS];
-
-static ssize_t gpu_clock_show(struct device *dev, struct device_attribute *attr, char *buf) {
-        return sprintf(buf, "Step0: %d\nStep1: %d\nStep2: %d\nStep3: %d\nStep4: %d\n"
-                                                "Threshold0-1/up-down: %d%% %d%%\n"
-                                                "Threshold1-2/up-down: %d%% %d%%\n"
-                                                "Threshold2-3/up-down: %d%% %d%%\n"
-                                                "Threshold3-4/up-down: %d%% %d%%\n",
-                mali_dvfs[0].clock,
-                mali_dvfs[1].clock,
-                mali_dvfs[2].clock,
-                mali_dvfs[3].clock,
-                mali_dvfs[4].clock,
-                mali_dvfs[0].upthreshold,
-                mali_dvfs[1].downthreshold,
-                mali_dvfs[1].upthreshold,
-                mali_dvfs[2].downthreshold,
-                mali_dvfs[2].upthreshold,
-                mali_dvfs[3].downthreshold,
-                mali_dvfs[3].upthreshold,
-                mali_dvfs[4].downthreshold
-                );
 		gpu_voltage_delta[i] = gv[i] - gpu_voltage_default[i];                
         }
 	mali_dvfs_table_update();
@@ -178,19 +131,6 @@ static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr
                                const char *buf, size_t count) {
         unsigned int ret = -EINVAL;
         int i = 0;
-
-        if ( (ret=sscanf(buf, "%d%% %d%% %d%% %d%% %d%% %d%% %d%% %d%%",
-                         &g[0], &g[1], &g[2], &g[3], &g[4], &g[5], &g[6], &g[7]))
-              == (MALI_STEPS-1)*2 ) i=1;
-
-        if(i) {
-                if(g[1]<0 || g[0]>100 || g[3]<0 || g[2]>100 ||
-			 g[5]<0 || g[4]>100 || g[7]<0 || g[6]>100) 
-                        return -EINVAL;
-
-                mali_dvfs[0].upthreshold = (int)(g[0]);
-                mali_dvfs[1].downthreshold = (int)(g[1]);
-
         int j = 0;
         unsigned int g[8];
 
@@ -203,6 +143,7 @@ static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr
 		
                 mali_dvfs[0].upthreshold = (int)(g[0]);
                 mali_dvfs[1].downthreshold = (int)(g[1]);
+
                 mali_dvfs[1].upthreshold = (int)(g[2]);
                 mali_dvfs[2].downthreshold = (int)(g[3]);
                 mali_dvfs[2].upthreshold = (int)(g[4]);
@@ -210,10 +151,8 @@ static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr
                 mali_dvfs[3].upthreshold = (int)(g[6]);
                 mali_dvfs[4].downthreshold = (int)(g[7]);
         } else {
-                if ( (ret=sscanf(buf, "%d %d %d %d %d", &g[0], &g[1], &g[2], &g[3], &g[4])) != MALI_STEPS)
 
                 if ((ret=sscanf(buf, "%d %d %d %d %d", &g[0], &g[1], &g[2], &g[3], &g[4])) != MALI_DVFS_STEPS)
-                if ((ret=sscanf(buf, "%d %d %d %d %d", &g[0], &g[1], &g[2], &g[3], &g[4])) != MALI_STEPS)
                         return -EINVAL;
 
                 /* safety floor and ceiling - netarchy */
@@ -224,9 +163,6 @@ static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr
                         else if (g[i] > GPU_MAX_CLOCK) {
                                 g[i] = GPU_MAX_CLOCK;
                         }
-
-                        if(ret==MALI_STEPS)
-                                mali_dvfs[i].clock=g[i];
 			/* only apply valid freq. - DerTeufel */
                         for (j = 0; (gpu_freq_table[j] != GPU_FREQ_END_OF_TABLE); j++) {
 			    if (gpu_freq_table[j] == g[i] && mali_dvfs[i].clock != g[i]) {
@@ -239,6 +175,22 @@ static ssize_t gpu_clock_store(struct device *dev, struct device_attribute *attr
     	mali_dvfs_table_update();
 
         }
+
+        step0_clk = mali_dvfs[0].clock;
+        step1_clk = mali_dvfs[1].clock;
+        step2_clk = mali_dvfs[2].clock;
+        step3_clk = mali_dvfs[3].clock;
+        step4_clk = mali_dvfs[4].clock;
+
+	step0_up = mali_dvfs[0].upthreshold;
+	step1_up = mali_dvfs[1].upthreshold;
+	step2_up = mali_dvfs[2].upthreshold;
+	step3_up = mali_dvfs[3].upthreshold;
+
+	step1_down = mali_dvfs[1].downthreshold;
+	step2_down = mali_dvfs[2].downthreshold;
+	step3_down = mali_dvfs[3].downthreshold;
+	step4_down = mali_dvfs[4].downthreshold;
 
         return count;
 }
@@ -282,10 +234,6 @@ static ssize_t gpu_voltage_delta_show(struct device *dev, struct device_attribut
 	    j += sprintf(&buf[j], "Step%d: %d\n", i, gpu_voltage_delta[i]);
 	}
    return j;
-// Yank555.lu : add a global voltage delta to be applied to all automatic voltage resets
-static ssize_t gpu_voltage_delta_show(struct device *dev, struct device_attribute *attr, char *buf) {
-
-  return sprintf(buf, "%d\n", gpu_voltage_delta);
 
 }
 
@@ -303,13 +251,6 @@ static ssize_t gpu_voltage_delta_store(struct device *dev, struct device_attribu
   if (data == 1) { // DerTeufel: reset all voltage deltas
 	gpu_voltage_delta_reset(-1);
 
-	int i;
-   	for (i = 0; i < MALI_DVFS_STEPS; i++)
-	{
-    	    gpu_voltage_delta[i] = 0;
-	}
-  if (data >= -250000 && data <= 250000) {
-    gpu_voltage_delta = data;
     // Yank555.lu : update mali dvfs table
     mali_dvfs_table_update();
     return count;
@@ -323,6 +264,7 @@ static DEVICE_ATTR(gpu_voltage_delta, S_IRUGO | S_IWUGO, gpu_voltage_delta_show,
 
 static DEVICE_ATTR(gpu_voltage_control, S_IRUGO | S_IWUGO, gpu_voltage_show, gpu_voltage_store);
 static DEVICE_ATTR(gpu_clock_control, S_IRUGO | S_IWUGO, gpu_clock_show, gpu_clock_store);
+static DEVICE_ATTR(available_frequencies, S_IRUGO, available_frequencies_show, NULL);
 
 static struct attribute *gpu_control_attributes[] = {
         &dev_attr_gpu_voltage_control.attr,
@@ -343,7 +285,7 @@ static struct miscdevice gpu_control_device = {
 
 void gpu_control_start()
 {
-        printk("Initializing gpu clock control interface\n");
+        printk("Initializing gpu control interface\n");
 
         misc_register(&gpu_control_device);
         if (sysfs_create_group(&gpu_control_device.this_device->kobj,
