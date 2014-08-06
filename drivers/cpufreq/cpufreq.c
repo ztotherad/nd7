@@ -368,8 +368,8 @@ static ssize_t show_##file_name				\
 	return sprintf(buf, "%u\n", policy->object);	\
 }
 
-show_one(cpuinfo_min_freq, cpuinfo.min_freq);
-show_one(cpuinfo_max_freq, cpuinfo.max_freq);
+show_one(cpuinfo_min_freq, min);
+show_one(cpuinfo_max_freq, max);
 show_one(cpuinfo_transition_latency, cpuinfo.transition_latency);
 show_one(scaling_min_freq, min);
 show_one(scaling_max_freq, max);
@@ -404,11 +404,11 @@ static ssize_t store_##file_name					\
 
 store_one(scaling_min_freq, min);
 
-/* Yank555.lu -                                                     */
-/* while storing scaling_max also set cpufreq_max_limit accordingly */
-/* store_one(scaling_max_freq, max);                                */
-static ssize_t store_scaling_max_freq(struct cpufreq_policy *policy,
-		const char *buf, size_t count)
+/* Yank555.lu - while storing scaling_max also set cpufreq_max_limit accordingly */
+/* store_one(scaling_max_freq, max); */
+
+static ssize_t store_scaling_max_freq
+(struct cpufreq_policy *policy, const char *buf, size_t count)
 {
 #ifdef CONFIG_DVFS_LIMIT
 	unsigned int cpufreq_level;
@@ -428,18 +428,16 @@ static ssize_t store_scaling_max_freq(struct cpufreq_policy *policy,
 	ret = __cpufreq_set_policy(policy, &new_policy);
 	policy->user_policy.max = policy->max;
 
-	/* Yank555.lu : set cpufreq_max_limit accordingly if dvfs limit
-	 * is defined */
+	/* Yank555.lu : set cpufreq_max_limit accordingly if dvfs limit is defined */
 #ifdef CONFIG_DVFS_LIMIT
-	/* Keep scaling_max linked to cpufreq_max_limit only if it was
-	 * previously linked, link will be re-established when
-	 * cpufreq_max_limit is released again, this will
+	/*
+	 * Keep scaling_max linked to cpufreq_max_limit only if it was previously linked,
+	 * link will be re-established when cpufreq_max_limit is released again, this will
 	 * enable Powersave mode to continue working as designed !
 	 */
-	if ((cpufreq_max_limit_coupled == SCALING_MAX_COUPLED) ||
-		(cpufreq_max_limit_coupled == SCALING_MAX_UNDEFINED)) {
-		if (get_cpufreq_level(policy->max, &cpufreq_level) ==
-			VALID_LEVEL) {
+	if ((cpufreq_max_limit_coupled == SCALING_MAX_COUPLED)   ||
+	    (cpufreq_max_limit_coupled == SCALING_MAX_UNDEFINED)    ) {
+		if (get_cpufreq_level(policy->max, &cpufreq_level) == VALID_LEVEL) {
 			if (cpufreq_max_limit_val != -1)
 				/* Unlock the previous lock */
 				exynos_cpufreq_upper_limit_free(DVFS_LOCK_ID_USER);
@@ -451,6 +449,7 @@ static ssize_t store_scaling_max_freq(struct cpufreq_policy *policy,
 #endif
 
 	return ret ? ret : count;
+
 }
 
 /**
@@ -611,6 +610,17 @@ static ssize_t show_scaling_setspeed(struct cpufreq_policy *policy, char *buf)
 	return policy->governor->show_setspeed(policy, buf);
 }
 
+
+/* sysfs interface for UV control */
+extern ssize_t show_UV_mV_table(struct cpufreq_policy *policy, char *buf);
+extern ssize_t store_UV_mV_table(struct cpufreq_policy *policy,
+                                      const char *buf, size_t count);
+
+/* sysfs interface for ASV level */
+extern ssize_t show_asv_level(struct cpufreq_policy *policy, char *buf);
+extern ssize_t store_asv_level(struct cpufreq_policy *policy,
+                                      const char *buf, size_t count);
+
 /**
  * show_scaling_driver - show the current cpufreq HW/BIOS limitation
  */
@@ -640,6 +650,10 @@ cpufreq_freq_attr_rw(scaling_min_freq);
 cpufreq_freq_attr_rw(scaling_max_freq);
 cpufreq_freq_attr_rw(scaling_governor);
 cpufreq_freq_attr_rw(scaling_setspeed);
+/* UV table */
+cpufreq_freq_attr_rw(UV_mV_table);
+/* ASV level */
+cpufreq_freq_attr_rw(asv_level);
 
 static struct attribute *default_attrs[] = {
 	&cpuinfo_min_freq.attr,
@@ -653,6 +667,8 @@ static struct attribute *default_attrs[] = {
 	&scaling_driver.attr,
 	&scaling_available_governors.attr,
 	&scaling_setspeed.attr,
+	&UV_mV_table.attr,
+	&asv_level.attr,
 	NULL
 };
 
@@ -1832,9 +1848,6 @@ static struct notifier_block __refdata cpufreq_cpu_notifier = {
     .notifier_call = cpufreq_cpu_callback,
 };
 
-#if defined(CONFIG_CPU_UNDERVOLTING)
-void create_standard_UV_interfaces(void);
-#endif
 /*********************************************************************
  *               REGISTER / UNREGISTER CPUFREQ DRIVER                *
  *********************************************************************/
@@ -1898,9 +1911,6 @@ int cpufreq_register_driver(struct cpufreq_driver *driver_data)
 	register_hotcpu_notifier(&cpufreq_cpu_notifier);
 	pr_debug("driver %s up and running\n", driver_data->name);
 
-#if defined(CONFIG_CPU_UNDERVOLTING)
-	create_standard_UV_interfaces();
-#endif
 	return 0;
 err_sysdev_unreg:
 	sysdev_driver_unregister(&cpu_sysdev_class,
