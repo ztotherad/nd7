@@ -29,15 +29,9 @@ AFLAGS_sleep-exynos4.o :=$(call as-instr,.arch_extension sec,-DREQUIRES_SEC=1)
 
 obj-$(CONFIG_EXYNOS5_PM)	+= pm-exynos5.o sleep-exynos5.o
 obj-$(CONFIG_CPU_FREQ)		+= cpufreq.o
-obj-$(CONFIG_EXYNOS4_CPUFREQ)	+= asv.o
-ifeq ($(CONFIG_CPU_EXYNOS4210),y)
-obj-$(CONFIG_EXYNOS4_CPUFREQ)	+= asv-4210.o
-obj-$(CONFIG_EXYNOS4_CPUFREQ)	+= cpufreq-4210.o
-else
-obj-$(CONFIG_EXYNOS4_CPUFREQ)	+= asv-4x12.o
-obj-$(CONFIG_EXYNOS4_CPUFREQ)	+= cpufreq-4x12.o
-endif
-
+obj-$(CONFIG_EXYNOS4_CPUFREQ)	+= asv.o asv-4210.o asv-4x12.o
+obj-$(CONFIG_EXYNOS4_CPUFREQ)	+= cpufreq-4210.o cpufreq-4x12.o
+obj-$(CONFIG_ABB_CONTROL)	    += abb_control.o
 obj-$(CONFIG_EXYNOS5_CPUFREQ)	+= asv.o asv-5250.o
 obj-$(CONFIG_EXYNOS5_CPUFREQ)	+= cpufreq-5250.o
 obj-$(CONFIG_EXYNOS4_CPUIDLE)	+= cpuidle-exynos4.o idle-exynos4.o
@@ -249,11 +243,7 @@ obj-$(CONFIG_TAB3_00_BD)		+= tab3-gpio.o tab3-power.o
 obj-$(CONFIG_TAB3_01_BD)		+= tab3-gpio.o tab3-power.o
 obj-$(CONFIG_KONA_00_BD)		+= kona-gpio.o kona-power.o
 obj-$(CONFIG_KONA_01_BD)		+= kona-01-gpio.o kona-01-power.o
-ifeq ($(CONFIG_MACH_SF2),y)
-obj-$(CONFIG_GC1_00_BD)			+= gc1-gpio.o sf2-power.o gc1-jack.o
-else
 obj-$(CONFIG_GC1_00_BD)			+= gc1-gpio.o gc1-power.o gc1-jack.o
-endif
 obj-$(CONFIG_GC2PD_00_BD)		+= gc2pd-gpio.o gc2pd-power.o
 obj-$(CONFIG_MACH_T0)			+= t0-gpio.o t0-power.o
 obj-$(CONFIG_MACH_BAFFIN)			+= baffin-gpio.o baffin-power.o
@@ -465,5 +455,3 @@ ifeq ($(CONFIG_GPS_CSRxT),y)
 obj-$(CONFIG_GPS_GSD4T)			+= sec_gps_gsd4t.o
 obj-$(CONFIG_GPS_GSD5T)			+= sec_gps_gsd5t.o
 endif
-
-obj-$(CONFIG_INTELLI_PLUG) += intelli_plug.o
