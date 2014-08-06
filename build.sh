@@ -76,3 +76,5 @@ rm $KERNEL_PATH/releasetools/zip/boot.img
 rm $KERNEL_PATH/zImage
 rm -rf $KERNEL_PATH/ramdisk.cpio.gz
 rm -rf $KERNEL_PATH/boot.img
+chmod 777 clean.sh
+./clean.sh

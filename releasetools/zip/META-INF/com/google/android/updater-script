@@ -1,5 +1,2 @@
-ui_print(" welcome to the energySTOCK kernel);
-ui_print(" brought to you by ztotherad);
-ui_print("")
 package_extract_file("boot.img", "dev/block/mmcblk0p8");
 
