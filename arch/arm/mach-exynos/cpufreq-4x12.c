@@ -580,11 +580,8 @@ static void exynos4x12_set_frequency(unsigned int old_index,
 		if (exynos4x12_volt_table[new_index] >= 950000 &&
 				need_dynamic_ema)
 				__raw_writel(0x101, EXYNOS4_EMA_CONF);
-<<<<<<< HEAD
 
-=======
 #ifndef CONFIG_ABB_CONTROL
->>>>>>> 3939585... Implemented Adaptive Body Bias (ABB)
 		if ((soc_is_exynos4212())
 			&& (exynos_result_of_asv > 3)
 			&& (old_index > L7) && (new_index <= L7)) {
@@ -630,10 +627,7 @@ static void exynos4x12_set_frequency(unsigned int old_index,
 			/* 2. Change the system clock divider values */
 			set_clkdiv(new_index);
 		}
-<<<<<<< HEAD
-=======
 #ifndef CONFIG_ABB_CONTROL
->>>>>>> 3939585... Implemented Adaptive Body Bias (ABB)
 		if ((soc_is_exynos4212())
 			&& (exynos_result_of_asv > 3)
 			&& (old_index <= L7) && (new_index > L7)) {

@@ -2173,16 +2173,13 @@ config PM_DEBUG_WAKEUP_RESET
 	help
 	  This configuratoin is only for debugging the PM interrupt issue.
 
-<<<<<<< HEAD
 config INTELLI_PLUG
 	bool "Enable intelli-plug cpu hotplug driver"
 	default n
 	help
 	  Generic Intelli-plug cpu hotplug driver for ARM SOCs
 
-=======
 config ABB_CONTROL
 	bool "Adaptive body bias control"
 	depends on EXYNOS4_CPUFREQ && CPU_EXYNOS4412
 	default n
->>>>>>> 3939585... Implemented Adaptive Body Bias (ABB)
