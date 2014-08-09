@@ -967,11 +967,7 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
 			type = MM_FILEPAGES;
 		#else
 			rss[MM_FILEPAGES]++;
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> 845062e... UKSM 0.1.2.2
+
 		#endif
 	#ifdef CONFIG_LOWMEM_CHECK
 		rss[type]++;
@@ -980,14 +976,12 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
 			rss[type]++;
 		}
 	#endif
-<<<<<<< HEAD
-=======
+
 	/* Should return NULL in vm_normal_page() */
 		uksm_bugon_zeropage(pte);
 	} else {
 		uksm_map_zero_page(pte);
->>>>>>> d4fa463... UKSM 0.1.2.2
->>>>>>> 845062e... UKSM 0.1.2.2
+
 	}
 
 out_set_pte:
@@ -2904,16 +2898,16 @@ gotten:
 				inc_mm_counter_fast(mm, MM_ANONPAGES);
 			#endif
 			}
-<<<<<<< HEAD
+
 		} else
 		#ifdef CONFIG_LOWMEM_CHECK
 			inc_mm_counter_fast(mm, MM_ANONPAGES, new_page);
 		#else
 			inc_mm_counter_fast(mm, MM_ANONPAGES);
-<<<<<<< HEAD
+
 		#endif
-=======
-=======
+
+
 			uksm_bugon_zeropage(orig_pte);
 		} else {
 		#ifdef CONFIG_LOWMEM_CHECK
@@ -2923,8 +2917,7 @@ gotten:
 		#endif
 			uksm_unmap_zero_page(orig_pte);
 		}
->>>>>>> d4fa463... UKSM 0.1.2.2
->>>>>>> 845062e... UKSM 0.1.2.2
+
 		flush_cache_page(vma, address, pte_pfn(orig_pte));
 		entry = mk_pte(new_page, vma->vm_page_prot);
 		entry = maybe_mkwrite(pte_mkdirty(entry), vma);
