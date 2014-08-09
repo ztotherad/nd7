@@ -352,7 +352,3 @@ config SPEEDUP_KEYRESUME
 	default y
 	---help---
 	  Speed up system resume
-<<<<<<< HEAD
-=======
-	  
->>>>>>> b98d5b0... earysuspend: speedup late resume (faster wakeup of the device)
