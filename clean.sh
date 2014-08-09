@@ -19,7 +19,3 @@ fi
 
 echo "Cleaning latest build"
 make ARCH=arm CROSS_COMPILE=$TOOLCHAIN -j`grep 'processor' /proc/cpuinfo | wc -l` mrproper
-echo "lastly, move *.zip to home directory"
-cd $KERNEL_PATH/release && mv *.zip $HOME
-echo "now removing release folder"
-rm -rf release
