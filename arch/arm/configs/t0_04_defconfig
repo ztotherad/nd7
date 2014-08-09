@@ -121,9 +121,7 @@ CONFIG_INITRAMFS_SOURCE="/home/ztotherad/kernels/nd7kk/ramdisk"
 CONFIG_RD_GZIP=y
 # CONFIG_RD_BZIP2 is not set
 CONFIG_RD_LZMA=y
-# CONFIG_RD_XZ is not set
 CONFIG_RD_LZO=y
-CONFIG_RD_XZ=y
 # CONFIG_RD_LZ4 is not set
 # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
 # CONFIG_CC_CHECK_WARNING_STRICTLY is not set
