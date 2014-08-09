@@ -183,11 +183,11 @@ struct i2c_client *b_client;
 #ifdef SEC_LED_SPECIFIC
 extern struct class *sec_class;
 struct device *led_dev;
-<<<<<<< HEAD
+
 /*path : /sys/class/sec/led/led_pattern*/
 /*path : /sys/class/sec/led/led_blink*/
 /*path : /sys/class/sec/led/led_brightness*/
-=======
+
 int led_enable_fade;
 u8 led_intensity;
 int led_speed;
@@ -201,7 +201,6 @@ int led_slope_down_2;
 /*path : /sys/class/sec/led/led_intensity*/
 /*path : /sys/class/sec/led/led_speed*/
 /*path : /sys/class/sec/led/led_slope*/
->>>>>>> 0b31604... Implemented Better Blinking Notification LED from Boeffla
 /*path : /sys/class/leds/led_r/brightness*/
 /*path : /sys/class/leds/led_g/brightness*/
 /*path : /sys/class/leds/led_b/brightness*/
@@ -493,16 +492,13 @@ static void an30259a_set_led_blink(enum an30259a_led_enum led,
 	else if (led == LED_B)
 		LED_DYNAMIC_CURRENT = LED_B_CURRENT;
 
-<<<<<<< HEAD
 	/* In user case, LED current is restricted */
 	brightness = (brightness * LED_DYNAMIC_CURRENT) / LED_MAX_CURRENT;
-=======
 	/* Yank555.lu : Control LED intensity (CM, Samsung, override) */
 	if (led_intensity == 40) /* Samsung stock behaviour */
 		brightness = (brightness * LED_DYNAMIC_CURRENT) / LED_MAX_CURRENT;
 	else if (led_intensity != 0) /* CM stock behaviour */
 		brightness = (brightness * led_intensity) / LED_MAX_CURRENT; /* override, darker or brighter */
->>>>>>> 0b31604... Implemented Better Blinking Notification LED from Boeffla
 
 	if (delay_on_time > SLPTT_MAX_VALUE)
 		delay_on_time = SLPTT_MAX_VALUE;
@@ -518,14 +514,13 @@ static void an30259a_set_led_blink(enum an30259a_led_enum led,
 	} else
 		leds_on(led, true, true, brightness);
 
-<<<<<<< HEAD
 	leds_set_slope_mode(client, led, 0, 15, 15, 0,
 				(delay_on_time + AN30259A_TIME_UNIT - 1) /
 				AN30259A_TIME_UNIT,
 				(delay_off_time + AN30259A_TIME_UNIT - 1) /
 				AN30259A_TIME_UNIT,
 				0, 0, 0, 0);
-=======
+
 	/* Yank555.lu : Handle fading / blinking */
 	if (led_enable_fade == 1) {
 		leds_set_slope_mode(client, led, 0, (15 / led_speed), (7 / led_speed), 0,
@@ -542,7 +537,7 @@ static void an30259a_set_led_blink(enum an30259a_led_enum led,
 					AN30259A_TIME_UNIT,
 					0, 0, 0, 0);
 	}
->>>>>>> 0b31604... Implemented Better Blinking Notification LED from Boeffla
+
 }
 
 static ssize_t store_an30259a_led_lowpower(struct device *dev,
@@ -654,8 +649,7 @@ static ssize_t store_an30259a_led_blink(struct device *dev,
 	return count;
 }
 
-<<<<<<< HEAD
-=======
+
 static ssize_t show_an30259a_led_fade(struct device *dev,
                     struct device_attribute *attr, char *buf)
 {
@@ -770,7 +764,7 @@ static ssize_t store_an30259a_led_slope(struct device *dev,
 
 	return count;
 }
->>>>>>> 0b31604... Implemented Better Blinking Notification LED from Boeffla
+
 
 static ssize_t store_led_r(struct device *dev,
 	struct device_attribute *devattr, const char *buf, size_t count)
@@ -952,8 +946,7 @@ static DEVICE_ATTR(led_pattern, 0664, NULL, \
 					store_an30259a_led_pattern);
 static DEVICE_ATTR(led_blink, 0664, NULL, \
 					store_an30259a_led_blink);
-<<<<<<< HEAD
-=======
+
 static DEVICE_ATTR(led_fade, 0664, show_an30259a_led_fade, \
 					store_an30259a_led_fade);
 static DEVICE_ATTR(led_intensity, 0664, show_an30259a_led_intensity, \
@@ -962,7 +955,7 @@ static DEVICE_ATTR(led_speed, 0664, show_an30259a_led_speed, \
 					store_an30259a_led_speed);
 static DEVICE_ATTR(led_slope, 0664, show_an30259a_led_slope, \
 					store_an30259a_led_slope);
->>>>>>> 0b31604... Implemented Better Blinking Notification LED from Boeffla
+
 static DEVICE_ATTR(led_br_lev, 0664, NULL, \
 					store_an30259a_led_br_lev);
 static DEVICE_ATTR(led_lowpower, 0664, NULL, \
@@ -988,13 +981,10 @@ static struct attribute *sec_led_attributes[] = {
 	&dev_attr_led_b.attr,
 	&dev_attr_led_pattern.attr,
 	&dev_attr_led_blink.attr,
-<<<<<<< HEAD
-=======
 	&dev_attr_led_fade.attr,
 	&dev_attr_led_intensity.attr,
 	&dev_attr_led_speed.attr,
 	&dev_attr_led_slope.attr,
->>>>>>> 0b31604... Implemented Better Blinking Notification LED from Boeffla
 	&dev_attr_led_br_lev.attr,
 	&dev_attr_led_lowpower.attr,
 	NULL,
@@ -1096,8 +1086,7 @@ static int __devinit an30259a_probe(struct i2c_client *client,
 	}
 
 #ifdef SEC_LED_SPECIFIC
-<<<<<<< HEAD
-=======
+
 	led_enable_fade = 0;  /* default to stock behaviour = blink */
 //	led_intensity =  0;   /* default to CM behaviour = brighter blink intensity allowed */
 	led_intensity = 40;   /* default to Samsung behaviour = normal intensity */
@@ -1107,7 +1096,7 @@ static int __devinit an30259a_probe(struct i2c_client *client,
 	led_slope_down_1 = 1;
 	led_slope_down_2 = 1;
 	
->>>>>>> 0b31604... Implemented Better Blinking Notification LED from Boeffla
+
 	led_dev = device_create(sec_class, NULL, 0, data, "led");
 	if (IS_ERR(led_dev)) {
 		dev_err(&client->dev,
@@ -1137,8 +1126,7 @@ static int __devexit an30259a_remove(struct i2c_client *client)
 	struct an30259a_data *data = i2c_get_clientdata(client);
 	int i;
 	dev_dbg(&client->adapter->dev, "%s\n", __func__);
-<<<<<<< HEAD
-=======
+
 	
 	// this is not an ugly hack to shutdown led.
 	data->shadow_reg[AN30259A_REG_LEDON] &= ~(LED_ON << 0);
@@ -1155,7 +1143,6 @@ static int __devexit an30259a_remove(struct i2c_client *client)
 	data->shadow_reg[AN30259A_REG_LED1CC + 2] = 0;
 	msleep(200);	
 	
->>>>>>> 0b31604... Implemented Better Blinking Notification LED from Boeffla
 #ifdef SEC_LED_SPECIFIC
 	sysfs_remove_group(&led_dev->kobj, &sec_led_attr_group);
 #endif
