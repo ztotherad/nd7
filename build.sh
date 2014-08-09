@@ -40,11 +40,11 @@ cp -f arch/arm/boot/zImage .
 
 # create ramdisk.cpio archive
 cd $ROOTFS_PATH
-find . | cpio -o -H newc  > $KERNEL_PATH/ramdisk.cpio.gz
+find . | cpio -o -H newc  > $KERNEL_PATH/ramdisk.cpio.xz
 cd $KERNEL_PATH
 
 # make boot.img
-./mkbootimg --kernel zImage --ramdisk ramdisk.cpio.gz -o $KERNEL_PATH/boot.img
+./mkbootimg --kernel zImage --ramdisk ramdisk.cpio.xz -o $KERNEL_PATH/boot.img
 
 # copy boot.img
 cp -f boot.img $KERNEL_PATH/releasetools/zip/
@@ -61,7 +61,7 @@ cd ..
 echo 'clean up, clean up, everybody clean up..'
 rm $KERNEL_PATH/releasetools/zip/boot.img
 rm $KERNEL_PATH/zImage
-rm -rf $KERNEL_PATH/ramdisk.cpio
+rm -rf $KERNEL_PATH/ramdisk.cpio.xz
 rm -rf $KERNEL_PATH/boot.img
 cd $KERNEL_PATH/release && mv $version.zip $HOME
 cd .. && rm -rf release

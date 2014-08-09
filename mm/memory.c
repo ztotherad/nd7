@@ -181,8 +181,13 @@ static void add_mm_counter_fast(struct mm_struct *mm, int member, int val)
 	else
 		add_mm_counter(mm, member, val);
 }
+#ifdef CONFIG_LOWMEM_CHECK
+#define inc_mm_counter_fast(mm, member, page) inc_mm_counter(mm, member, page)
+#define dec_mm_counter_fast(mm, member, page) dec_mm_counter(mm, member, page)
+#else 
 #define inc_mm_counter_fast(mm, member) add_mm_counter_fast(mm, member, 1)
 #define dec_mm_counter_fast(mm, member) add_mm_counter_fast(mm, member, -1)
+#endif
 
 /* sync counter once per 64 page faults */
 #define TASK_RSS_EVENTS_THRESH	(64)
@@ -967,7 +972,6 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
 			type = MM_FILEPAGES;
 		#else
 			rss[MM_FILEPAGES]++;
-
 		#endif
 	#ifdef CONFIG_LOWMEM_CHECK
 		rss[type]++;
@@ -976,12 +980,10 @@ copy_one_pte(struct mm_struct *dst_mm, struct mm_struct *src_mm,
 			rss[type]++;
 		}
 	#endif
-
 	/* Should return NULL in vm_normal_page() */
 		uksm_bugon_zeropage(pte);
 	} else {
 		uksm_map_zero_page(pte);
-
 	}
 
 out_set_pte:
@@ -2468,8 +2470,7 @@ EXPORT_SYMBOL(remap_pfn_range);
  * NOTE! Some drivers might want to tweak vma->vm_page_prot first to get
  * whatever write-combining details or similar.
  */
-int vm_iomap_memory(struct vm_area_struct *vma, phys_addr_t start,
-							unsigned long len)
+int vm_iomap_memory(struct vm_area_struct *vma, phys_addr_t start, unsigned long len)
 {
 	unsigned long vm_len, pfn, pages;
 
@@ -2499,8 +2500,7 @@ int vm_iomap_memory(struct vm_area_struct *vma, phys_addr_t start,
 		return -EINVAL;
 
 	/* Ok, let it rip */
-	return io_remap_pfn_range(vma, vma->vm_start, pfn, vm_len,
-							vma->vm_page_prot);
+	return io_remap_pfn_range(vma, vma->vm_start, pfn, vm_len, vma->vm_page_prot);
 }
 EXPORT_SYMBOL(vm_iomap_memory);
 
@@ -2898,18 +2898,9 @@ gotten:
 				inc_mm_counter_fast(mm, MM_ANONPAGES);
 			#endif
 			}
-
-		} else
-		#ifdef CONFIG_LOWMEM_CHECK
-			inc_mm_counter_fast(mm, MM_ANONPAGES, new_page);
-		#else
-			inc_mm_counter_fast(mm, MM_ANONPAGES);
-
-		#endif
-
-
 			uksm_bugon_zeropage(orig_pte);
 		} else {
+
 		#ifdef CONFIG_LOWMEM_CHECK
 			inc_mm_counter_fast(mm, MM_ANONPAGES, new_page);
 		#else
