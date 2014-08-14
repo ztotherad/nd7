@@ -26,7 +26,7 @@ find -name '*.ko' -exec rm -rf {} $ROOTFS_PATH/lib/modules/* \;
 # Making the config
 make $defconfig
 
-make -j`grep 'processor' /proc/cpuinfo | wc -l` ARCH=arm CROSS_COMPILE=$TOOLCHAIN >> compile.log 2>&1 || exit -1
+make -j`grep 'processor' /proc/cpuinfo | wc -l` || exit -1
 
 # Copying and stripping kernel modules
 echo 'moving modules'

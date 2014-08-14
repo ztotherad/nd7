@@ -84,7 +84,20 @@ echo "zzmoove" >/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
 /sbin/busybox sleep 2
 
 echo 6 > /sys/devices/system/cpu/cpufreq/zzmoove/profile_number
-
+echo 80 > /sys/devices/system/cpu/cpufreq/zzmoove/up_threshold
+echo 65 > /sys/devices/system/cpu/cpufreq/zzmoove/down_threshold
+echo 40 > /sys/devices/system/cpu/cpufreq/zzmoove/up_threshold_hotplug1
+echo 400000 > /sys/devices/system/cpu/cpufreq/zzmoove/up_threshold_hotplug_freq1
+echo 20 > /sys/devices/system/cpu/cpufreq/zzmoove/down_threshold_hotplug1
+echo 0 > /sys/devices/system/cpu/cpufreq/zzmoove/down_threshold_hotplug_freq1
+echo 65 > /sys/devices/system/cpu/cpufreq/zzmoove/up_threshold_hotplug2
+echo 1200000 > /sys/devices/system/cpu/cpufreq/zzmoove/up_threshold_hotplug_freq2
+echo 50 > /sys/devices/system/cpu/cpufreq/zzmoove/down_threshold_hotplug2
+echo 0 > /sys/devices/system/cpu/cpufreq/zzmoove/down_threshold_hotplug_freq2
+echo 90 > /sys/devices/system/cpu/cpufreq/zzmoove/up_threshold_hotplug3
+echo 1600000 > /sys/devices/system/cpu/cpufreq/zzmoove/up_threshold_hotplug_freq3
+echo 70 > /sys/devices/system/cpu/cpufreq/zzmoove/down_threshold_hotplug3
+echo 0 > /sys/devices/system/cpu/cpufreq/zzmoove/down_threshold_hotplug_freq3
 
 # i/o schedulers
 echo sio > /sys/block/mmcblk0/queue/scheduler
