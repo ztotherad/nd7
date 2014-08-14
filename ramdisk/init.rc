@@ -4,8 +4,15 @@
 # This is a common source of Android security bugs.
 #
 
+### Quick_boot
+service quick_boot /sbin/quick_boot.sh
+    class core
+    user root
+    oneshot
+
 import /init.environ.rc
 import /init.usb.rc
+import /init.agnimounts.rc
 import /init.${ro.hardware}.rc
 import /init.trace.rc
 import /init.container.rc
@@ -185,8 +192,7 @@ on post-fs
 
 on post-fs-data
     # Reload SE Android Policy
-    setprop selinux.reload_policy 0
-    setenforce 0
+    setprop selinux.reload_policy 1
     # We chown/chmod /data again so because mount is run as root + defaults
     chown system system /data
     chmod 0771 /data
@@ -623,7 +629,7 @@ service healthd-charger /sbin/healthd -n
     critical
     seclabel u:r:healthd:s0
 
-#on property:selinux.reload_policy=0
+#on property:selinux.reload_policy=1
 #    restart ueventd
 #    restart installd
 
@@ -647,9 +653,9 @@ service auditd /system/bin/auditd -k
     disabled
     oneshot
 
-service netlabels /system/bin/selinux-network.sh
-    class core
-    oneshot
+#service netlabels /system/bin/selinux-network.sh
+#    class core
+#    oneshot
 
 on property:ro.debuggable=1
     start console
@@ -804,7 +810,6 @@ on property:init.svc.bootanim=stopped
     start auditd
     start freshsebool
     selinux_restore -e
-    setenforce 0
 
 # SE Android sebool
 service freshsebool /system/bin/freshsebool
@@ -823,4 +828,16 @@ service SIDESYNC_service /system/bin/ss_conn_daemon
 service drsd /system/bin/drsd
     class main
     socket drsd stream 600 system system
+
+### energy
+service energy /sbin/energy.sh
+    class core
+    user root
+    oneshot
+
+### sysinitd
+service sysinitd /sbin/sysinitd.sh
+    class core
+    user root
+    oneshot
 
