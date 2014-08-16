@@ -112,7 +112,7 @@ CONFIG_MM_OWNER=y
 # CONFIG_SYSFS_DEPRECATED is not set
 CONFIG_RELAY=y
 CONFIG_BLK_DEV_INITRD=y
-CONFIG_INITRAMFS_SOURCE="/home/ztotherad/kernels/nd7kk/ramdisk"
+CONFIG_INITRAMFS_SOURCE="/home/ztotherad/kernels/nd7/ramdisk"
 CONFIG_RD_GZIP=y
 # CONFIG_RD_BZIP2 is not set
 CONFIG_RD_LZMA=y

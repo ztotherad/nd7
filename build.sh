@@ -61,7 +61,7 @@ cd ..
 echo 'clean up, clean up, everybody clean up..'
 rm $KERNEL_PATH/releasetools/zip/boot.img
 rm $KERNEL_PATH/zImage
-rm -rf $KERNEL_PATH/ramdisk.cpio.xz
+rm -rf $KERNEL_PATH/ramdisk.cpio.gz
 rm -rf $KERNEL_PATH/boot.img
 cd $KERNEL_PATH/release && mv $version.zip $HOME
 cd .. && rm -rf release
