@@ -227,6 +227,7 @@ static int wm8994_write(struct snd_soc_codec *codec, unsigned int reg,
 
 #ifdef CONFIG_SND_WOLFSON_SOUND_CONTROL
 	value = sound_control_hook_wm8994_write(reg, value);
+#endif
 
 #ifdef CONFIG_SND_VOODOO
 	value = voodoo_hook_wm8994_write(codec, reg, value);
