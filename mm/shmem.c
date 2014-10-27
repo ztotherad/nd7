@@ -2486,8 +2486,8 @@ static int shmem_parse_options(char *options, struct shmem_sb_info *sbinfo,
 				goto bad_val;
 		} else if (!strcmp(this_char,"mpol")) {
 			mpol_put(mpol);
-+			if (mpol_parse_str(value, &mpol, 1)) {
-+				mpol = NULL;
+			if (mpol_parse_str(value, &mpol, 1)) {
+				mpol = NULL;
 				goto bad_val;
 		       }
 		} else {

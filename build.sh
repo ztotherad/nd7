@@ -5,7 +5,7 @@ KERNEL_PATH=$PWD
 defconfig=t0_04_defconfig
 
 # set toolchain path and root filesystem path
-TOOLCHAIN="/home/ztotherad/toolchains/arm-eabi-4.9/bin/arm-eabi-"
+TOOLCHAIN="/home/ztotherad/toolchains/sabermod/arm-eabi-4.9/bin/arm-eabi-"
 ROOTFS_PATH="$KERNEL_PATH/ramdisk"
 
 # exports
@@ -65,3 +65,7 @@ rm -rf $KERNEL_PATH/ramdisk.cpio.gz
 rm -rf $KERNEL_PATH/boot.img
 cd $KERNEL_PATH/release && mv $version.zip $HOME
 cd .. && rm -rf release
+
+# Get elapsed time
+res2=$(date +%s.%N)
+echo "${bldgrn}Total time elapsed: ${txtrst}${grn}$(echo "($res2 - $res1) / 60"|bc ) minutes ($(echo "$res2 - $res1"|bc ) seconds) ${txtrst}"
