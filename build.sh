@@ -16,7 +16,7 @@ export ARCH=arm
 export USE_SEC_FIPS_MODE=true
 
 
-displayversion=xtremeZ-STOCK
+displayversion=rapidoSTOCK
 
 version=$displayversion-$(date +%Y%m%d)
 

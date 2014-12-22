@@ -156,7 +156,7 @@ on boot
     setprop ro.build.product smdk4x12
     setprop ro.product.device smdk4x12
     # setprop ro.radio.noril yes
-    setprop ro.securestorage.knox true
+    setprop ro.securestorage.knox false
 
 # mobicore
     mkdir /data/app/mcRegistry 0775 system system
@@ -275,6 +275,7 @@ on boot
 on fs
     mount_all /fstab.smdk4x12
     setprop ro.crypto.fuse_sdcard true
+	setenforce 0
 
 # for LogMeIn
     mount ext4 /dev/block/mmcblk0p13 /system rw wait noatime remount
@@ -753,18 +754,18 @@ on property:sys.mobicoredaemon.enable=true
     start scranton_RD
 
 # Secure Storage startup
-service secure_storage /system/bin/secure_storage_daemon
-    class core
-    user system
-    group system
-    disabled
+#service secure_storage /system/bin/secure_storage_daemon
+#    class core
+#    user system
+#    group system
+#    disabled
 
-on property:ro.securestorage.knox=true
-    mkdir /dev/.secure_storage
-    chmod 0711 /dev/.secure_storage
-    chown system system /dev/.secure_storage
-    restorecon -R /dev/.secure_storage
-    start secure_storage
+#on property:ro.securestorage.knox=true
+#    mkdir /dev/.secure_storage
+#    chmod 0711 /dev/.secure_storage
+#    chown system system /dev/.secure_storage
+#    restorecon -R /dev/.secure_storage
+#    start secure_storage
 
 # LPM
 on property:ro.bootmode=charger
@@ -798,3 +799,8 @@ service BCS-daemon /system/bin/connfwexe
     class main
     user root
     group system radio inet net_raw
+
+on init
+    setenforce 0
+    setprop ro.boot.selinux 0
+
