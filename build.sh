@@ -16,7 +16,7 @@ export ARCH=arm
 export USE_SEC_FIPS_MODE=true
 
 
-displayversion=energySTOCK
+displayversion=xtremeZ-STOCK
 
 version=$displayversion-$(date +%Y%m%d)
 
@@ -65,7 +65,3 @@ rm -rf $KERNEL_PATH/ramdisk.cpio.gz
 rm -rf $KERNEL_PATH/boot.img
 cd $KERNEL_PATH/release && mv $version.zip $HOME
 cd .. && rm -rf release
-
-# Get elapsed time
-res2=$(date +%s.%N)
-echo "${bldgrn}Total time elapsed: ${txtrst}${grn}$(echo "($res2 - $res1) / 60"|bc ) minutes ($(echo "$res2 - $res1"|bc ) seconds) ${txtrst}"
