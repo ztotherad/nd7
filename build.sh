@@ -5,7 +5,8 @@ KERNEL_PATH=$PWD
 defconfig=t0_04_defconfig
 
 # set toolchain path and root filesystem path
-TOOLCHAIN="/home/ztotherad/toolchains/sabermod/arm-eabi-4.9/bin/arm-eabi-"
+# TOOLCHAIN="/home/ztotherad/toolchains/sabermod/arm-eabi-4.9/bin/arm-eabi-"
+TOOLCHAIN="/home/ztotherad/toolchains/linaro/linaro-4.9.3/bin/arm-cortex_a9-linux-gnueabihf-"
 ROOTFS_PATH="$KERNEL_PATH/ramdisk"
 
 # exports
